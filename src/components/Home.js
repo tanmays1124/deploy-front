@@ -3,6 +3,8 @@ import "./Home.css";
 import linux from "../images/linux.jpg";
 import sql from "../images/sql.jpg";
 import ml from "../images/ml.jpg";
+import pyimg from "../images/python.png";
+import docker from "../images/docker.png";
 import mongodb from "../images/mongodb.jpg";
 import html from "../images/html.jpg";
 import React, { useEffect, useState } from "react";
@@ -440,7 +442,7 @@ const [windowWidth, setWindowWidth] = useState(window.innerWidth);
             setUser={setUser}
           />
           <Cards
-            title={"AI/ML"}
+            title={"AIML"}
             image={ml}
             content={
               "Click to begin attempt on AI/ML and it's sub-domain topics."
@@ -474,10 +476,10 @@ const [windowWidth, setWindowWidth] = useState(window.innerWidth);
             setUser={setUser}
           />
            <Cards
-            title={"HTML"}
-            image={html}
+            title={"Python"}
+            image={pyimg}
             content={
-              "Click to begin attempt on HTML and it's sub-domain topics."
+              "Click to begin attempt on Python and it's sub-domain topics."
             }
             questions={questions}
             setQuestions={setQuestions}
@@ -491,10 +493,10 @@ const [windowWidth, setWindowWidth] = useState(window.innerWidth);
             setUser={setUser}
           />
            <Cards
-            title={"HTML"}
-            image={html}
+            title={"SQL"}
+            image={sql}
             content={
-              "Click to begin attempt on HTML and it's sub-domain topics."
+              "Click to begin attempt on SQL and it's sub-domain topics."
             }
             questions={questions}
             setQuestions={setQuestions}
@@ -508,10 +510,10 @@ const [windowWidth, setWindowWidth] = useState(window.innerWidth);
             setUser={setUser}
           />
            <Cards
-            title={"HTML"}
-            image={html}
+            title={"Docker"}
+            image={docker}
             content={
-              "Click to begin attempt on HTML and it's sub-domain topics."
+              "Click to begin attempt on Docker and it's sub-domain topics."
             }
             questions={questions}
             setQuestions={setQuestions}
@@ -524,23 +526,7 @@ const [windowWidth, setWindowWidth] = useState(window.innerWidth);
             user={user}
             setUser={setUser}
           />
-           <Cards
-            title={"HTML"}
-            image={html}
-            content={
-              "Click to begin attempt on HTML and it's sub-domain topics."
-            }
-            questions={questions}
-            setQuestions={setQuestions}
-            answers={answers}
-            setAnswers={setAnswers}
-            options={options}
-            setOptions={setOptions}
-            category={category}
-            setCategory={setCategory}
-            user={user}
-            setUser={setUser}
-          />
+           
         </div>
       </div>
       </div>

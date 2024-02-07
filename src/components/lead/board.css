@@ -1,17 +1,16 @@
 /* container class styles */
-.board-container {
+.container {
     display: flex;
     justify-content: space-between;
     width: 100%;
     padding: 10px; /* Added padding to container for better spacing */
     box-sizing: border-box; /* Include padding in width */
-    background: transparent;
     
   }
 
   .profile-image {
-    width: 90px;
-    height: 90px;
+    width: 250px;
+    height: 150px;
     border-radius: 50%; /* Make the image round */
     margin-right: 10px; /* Adjusted spacing */
   }
@@ -24,19 +23,17 @@
     left: 0;
     height: 100%;
     width: 26%;
-    background-color: rgb(198, 203, 204);
+    background:linear-gradient(rgb(197, 211, 211), rgb(65, 155, 146) 60%);
     padding: 10px; /* Adjusted padding for better spacing */
     box-sizing: border-box; /* Add box-sizing to include padding in width */
   }
-  
-  /* Sidebar Button Styles */
   .sidebar button {
     margin-bottom: 8px;
     padding: 8px 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    background-color: #ddd;
+    background-color: #0eac91;
     transition: background-color 0.3s ease;
     width: 100%; /* Make buttons fill the width of the sidebar */
   }
@@ -65,14 +62,15 @@
   /* User Profile Styles */
   .user-profile {
     display: flex;
-    flex-direction: row; /* Display items in a row */
+    flex-direction: row;
     align-items: center;
     margin-bottom: 15px;
-    background:#ddd;
-    width: 80%;
+    background:linear-gradient(rgb(197, 211, 211), rgb(65, 155, 146) 60%);
+    width: 70%;
+    height: 83px; /* Set a fixed height */
     padding: 10px;
-    box-sizing: border-box; /* Added box-sizing */
-    justify-content:space-around ;
+    box-sizing: border-box;
+    justify-content: space-around;
     transition: 0.3s ease-in;
   }
   
@@ -84,7 +82,7 @@
   }
   
   .user-profile:hover {
-    background: rgb(12, 62, 170);
+    background:linear-gradient(rgb(3, 163, 163), rgb(23, 197, 142) 60%);
     transform: scale(1.07);
   }
   
@@ -95,6 +93,22 @@
   }
   
   /* Add a media query for smaller screens */
+  @media only screen and (max-width: 1028px) {
+    .container {
+      flex-direction: column;
+      padding: 0; /* Remove padding for smaller screens */
+    }
+  
+    .board,
+    .sidebar {
+      width: 100%;
+      margin-left: 0; /* Reset margin for smaller screens */
+      transition: margin-left 0.3s;
+      margin-top: 20px;
+    }
+
+  }
+
   @media only screen and (max-width: 328px) {
     .container {
       flex-direction: column;
@@ -103,12 +117,13 @@
   
     .board,
     .sidebar {
-      max-width: 100%;
+      width: 100%;
       margin-left: 0; /* Reset margin for smaller screens */
       transition: margin-left 0.3s;
       margin-top: 20px;
     }
 
+  }
   
     /* Adjust font size for smaller screens */
     .sidebar h2,
@@ -131,8 +146,8 @@
         }
       
         .profile-image {
-            width: 50px;
-            height: 50px;
+            width: 74px;
+            height: 74px;
             border-radius: 50%; /* Make the image round */
             margin-right: 10px; /* Adjusted spacing */
           }
@@ -145,7 +160,7 @@
         .score {
           font-size: 0.9em;
         }
-  }
+  
   
   
   
@@ -168,7 +183,7 @@
   }
   
   .pagination button.active {
-    background-color: #3b95df;
+    background:linear-gradient(rgb(3, 163, 163), rgb(23, 197, 142) 60%);
     color: white;
   }
   
@@ -177,9 +192,7 @@
     opacity: 0.5;
   }
 
-  .container {
 
-  }
   
   .selection-dropdowns {
     display: flex;
@@ -218,4 +231,6 @@
     font-weight: bold;
     text-decoration: underline;
   }
+  
+
   

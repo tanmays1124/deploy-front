@@ -541,13 +541,13 @@ const handlePageChange = (pageNumber) => {
 
 
 return (
-  <div className="board-container">
+  <div className="container">
     <div className="sidebar">
       <h2>LEADER BOARD</h2>
       <br />
       <hr />
       <br />
-      <h2>Score Filter: {scoreFilter}</h2>
+      {/* <h2>Score Filter: {scoreFilter}</h2> */}
       {/* <div className="score-filter-dropdown">
         <select value={scoreFilter} onChange={(e) => handleScoreFilterChange(e.target.value)}>
     
@@ -601,31 +601,38 @@ return (
           <h2 className="header-text">{`${domain}-${difficulty}`}</h2>
         )}
 
-        {currentItems.map((user, index) => {
-          const userIndex = uniqueUserIds.indexOf(user.userId);
-          const userDetailsForUser = userDetails[userIndex];
+       {currentItems.map((user, index) => {
+  const userIndex = uniqueUserIds.indexOf(user.userId);
+  const userDetailsForUser = userDetails[userIndex];
 
-          return (
-            <div key={index} className="user-profile">
-              <span className="rank">#{user.rank}</span>
-              <span className="un">
-                {userDetailsForUser ? userDetailsForUser.username : ''}
-              </span>
-              <img
-                className="profile-image"
-                src={
-                  userDetailsForUser.photo
-                    ? `http://127.0.0.1:8000${userDetailsForUser.photo}`
-                    : pfimg
-                }
-                alt={`User ${index + 1}`}
-                width="175px"
-                height="175px"
-              />
-              <p> Score: {user.maxScore}</p>
-            </div>
-          );
-        })}
+  return (
+    <div key={index} className="user-profile">
+      <div className="rank-section">
+        <span className="rank"># {user.rank}</span>
+        {(index < 3 && currentPage === 1) && (
+          <span className="medal-icon">{index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}</span>
+        )}
+      </div>
+      <div className="user-details">
+        <img
+          className="profile-image"
+          src={
+            userDetailsForUser.photo
+              ? `http://127.0.0.1:8000${userDetailsForUser.photo}`
+              : pfimg
+          }
+          alt={`User ${index + 1}`}
+          width="50px"
+          height="50px"
+        />
+        <span className="username">&nbsp;&nbsp;<strong>{userDetailsForUser.username}</strong></span>
+      </div>
+      <div className="score-section">
+        <p className="score">Score: <strong>{user.maxScore}</strong></p>
+      </div>
+    </div>
+  );
+})}
       </div>
     )}
 

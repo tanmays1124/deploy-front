@@ -178,63 +178,30 @@ const Profile = () => {
  
   return (
     <>
-    {/* <Layout>
+   
+   <Layout>
         <div className="container shadow rounded mt-5 mb-5 profile-container">
-          <div className="row">
+          
             <div className="col-md-12">
-              <div className="d-flex justify-content-between align-items-center p-3 top-container">
-                <div className="d-flex align-items-center">
-                  <div className="profile-image-container">
-                    <img
-                      className="rounded-circle"
-                      width="175px"
-                      height="175px"
-                      src={photoSrc || pfimg}
-                      alt="Profile"
-                    />
-                  </div>
-                  <div className="profile-info-container ml-3">
-                    <strong className="text-black-50">{username}</strong>
-                  </div>
-                </div>
-                <div>
-                  <label className="upload">
-                    <input
-                      className="btn btn-outline-primary"
-                      type="file"
-                      accept="image/*"
-                      onChange={handlePhotoChange}
-                      disabled={disableChooseFile}
-                      id="profilePictureInput"
-                    />
-                    <span>Upload Image</span>
-                  </label>
-                </div>
-              </div> */}
-               <Layout>
-        <div className="container shadow rounded mt-5 mb-5 profile-container">
-          <div className="row profileCont">
-            <div className="col-md-12">
-              <div className="d-flex justify-content-between align-items-center p-3 top-container">
+              <div className="d-flex p-3 top-container">
                 
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center row">
                   
                   <div className="profile-image-container">
                     <img
                       className="rounded-circle"
-                      width="175px"
-                      height="175px"
+                      width="160px"
+                      height="160px"
                       src={photoSrc || pfimg}
                       alt="Profile"
                     />
                   </div>
-                  <div className="profile-info-container ml-3">
+                  <div className="profile-info-container ">
                     <strong className="text-black-50">{username}</strong>
                   </div>
-                </div>
-                
-                {disableUpdate ? (
-                  <div>
+                  
+                  {disableUpdate ? (
+                  <div className="upload-photo">
                     <label className="upload">
                       <input
                         className="uploaded"
@@ -243,14 +210,19 @@ const Profile = () => {
                         onChange={handlePhotoChange}
                         disabled={disableChooseFile}
                         id="profilePictureInput"
+                        style={{disable:"hidden"}}
                       />
+                      
                       
                     </label>
                   </div>
                 ) : null}
+                </div>
+                
+               
               </div>
               <hr className="divider" />
-            </div>
+            
             <div className="col-md-12">
               <div className="p-3 py-5 bottom-container">
                 <div className="row mt-2">

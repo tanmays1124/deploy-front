@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Chart from "react-apexcharts";
 import Box from '@mui/material/Box';
 import "./BarGraph.css";
+import ip from '../../ipaddr.js'
+
 
 function BarGraph() {
   const [data, setDatabaseData] = useState([]);
@@ -26,7 +28,7 @@ function BarGraph() {
       const userId = localStorage.getItem('userId') 
       try {
         const userId = localStorage.getItem('userId')
-        const response = await fetch(`http://127.0.0.1:8000/api/questionhistoryget/?user_id=${userId}`);
+        const response = await fetch(`http://${ip}:8000/api/questionhistoryget/?user_id=${userId}`);
         const fetchedData = await response.json();
 
         if (fetchedData) {

@@ -13,6 +13,7 @@ import Navbar from "./Navbar";
 import Loading from "./Loading";
 import axios from "axios";
 import Layout from './Layout';
+import ip from '../ipaddr.js'
 
 
 const Modal = (props) => {
@@ -96,7 +97,7 @@ const Modal = (props) => {
       
   const user_id = localStorage.getItem('userId')
   
-      const response = await axios.get("http://127.0.0.1:8000/api/questions/", {
+      const response = await axios.get("http://${ip}:8000/api/questions/", {
         params: {
           category: props.category,
           user_id: user_id,

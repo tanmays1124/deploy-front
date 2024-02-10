@@ -8,6 +8,8 @@ import LineGraph from './pages/LineGraph';
 import "./pages/Dash.css";
 import Navbar from "./Navbar";
 import Layout from './Layout';
+import ip from '../ipaddr.js'
+
 
 function Dashboard({ open }) {
   const [quizData, setQuizData] = useState([]);
@@ -23,7 +25,7 @@ function Dashboard({ open }) {
       try {
         const userId = localStorage.getItem('userId')
 
-        const response = await fetch(`http://127.0.0.1:8000/api/questionhistoryget/?user_id=${userId}`);
+        const response = await fetch(`http://${ip}:8000/api/questionhistoryget/?user_id=${userId}`);
         const fetchedData = await response.json();
   
         if (fetchedData) {

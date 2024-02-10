@@ -5,6 +5,8 @@ import log from "../images/Log.png";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "./Login.css";
+import ip from '../ipaddr.js'
+
 
 const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [formData, setFormData] = useState({
@@ -34,7 +36,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/login/",
+        `http://${ip}:8000/api/login/`,
         formData
       );
       setToken(response.data.token);
@@ -110,7 +112,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
                   <input type="submit" value="Login" />
                 </div>
                 <Link to="/register"className="register-link">Register?</Link>
-                <Link to="http://127.0.0.1:8000/api/forgot_password/" className="forgot">Forgot Password</Link>
+                <Link to="http://${ip}:8000/api/forgot_password/" className="forgot">Forgot Password</Link>
               </form>
             </div>
           </div>
@@ -148,7 +150,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
         </form>
         <div className="links">
         <Link className="register" to="/register">Register?</Link>
-        <Link className="forgot" to='http://127.0.0.1:8000/api/forgot_password/'>Forgot Password?</Link>
+        <Link className="forgot" to={`http://${ip}:8000/api/forgot_password/`}>Forgot Password?</Link>
         </div>
       </div>
     </>

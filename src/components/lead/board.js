@@ -28,12 +28,12 @@
 //         const userId = localStorage.getItem('userId');
 //         console.log(userId);
 //         setIsLoadingUserData(true);
-//         const response = await axios.get(`http://127.0.0.1:8000/api/userprofile/${userId}`);
+//         const response = await axios.get(`http://${ip}:8000/api/userprofile/${userId}`);
 //         const userData = response.data;
 //         console.log('Fetched user data:', userData);
   
 //         if (userData.photo !== null) {
-//           const completePhotoUrl = `http://127.0.0.1:8000${userData.photo}`;
+//           const completePhotoUrl = `http://${ip}:8000${userData.photo}`;
 //           setUserPhoto(completePhotoUrl);
 //         } else {
 //           setUserPhoto('default-photo-url');
@@ -58,7 +58,7 @@
 //         const difficultyParam = difficulty !== 'All' ? `&difficulty_level=${difficulty}` : '';
 //         const domainParam = domain !== 'All' ? `&domain=${domain}` : '';
 //         const response = await axios.get(
-//           `http://127.0.0.1:8000/api/questionhistoryget/?${difficultyParam}${domainParam}`
+//           `http://${ip}:8000/api/questionhistoryget/?${difficultyParam}${domainParam}`
 //         );
   
 //         console.log('Fetched Leaderboard Data:', response.data);
@@ -79,7 +79,7 @@
 //           uniqueUserIds.map(async (uniqueUserId) => {
 //             try {
 //               const userProfileResponse = await axios.get(
-//                 `http://127.0.0.1:8000/api/userprofile/${uniqueUserId}`
+//                 `http://${ip}:8000/api/userprofile/${uniqueUserId}`
 //               );
 //               console.log('User Profile Response:', userProfileResponse.data);
   
@@ -322,6 +322,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './board.css';
 import pfimg from './profile.jpg';
+import ip from '../../ipaddr.js'
 
 
 export default function Board() {
@@ -357,12 +358,12 @@ export default function Board() {
   const fetchUserData = async (userId) => {
     try {
       setIsLoadingUserData(true);
-      const response = await axios.get(`http://127.0.0.1:8000/api/userprofile/${userId}`);
+      const response = await axios.get(`http://${ip}:8000/api/userprofile/${userId}`);
       const userData = response.data;
       console.log('Fetched user data:', userData);
 
       if (userData.photo !== null) {
-        const completePhotoUrl = `http://127.0.0.1:8000${userData.photo}`;
+        const completePhotoUrl = `http://${ip}:8000${userData.photo}`;
         setUserPhoto(completePhotoUrl);
       } else {
         setUserPhoto('default-photo-url');
@@ -383,7 +384,7 @@ export default function Board() {
       const difficultyParam = difficulty !== 'All' ? `&difficulty_level=${difficulty}` : '';
       const domainParam = domain !== 'All' ? `&domain=${domain}` : '';
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/questionhistoryget/?${difficultyParam}${domainParam}`
+        `http://${ip}:8000/api/questionhistoryget/?${difficultyParam}${domainParam}`
       );
 
       console.log('Fetched Leaderboard Data:', response.data);
@@ -405,7 +406,7 @@ export default function Board() {
         uniqueUserIdsArray.map(async (uniqueUserId) => {
           try {
             const userProfileResponse = await axios.get(
-              `http://127.0.0.1:8000/api/userprofile/${uniqueUserId}`
+              `http://${ip}:8000/api/userprofile/${uniqueUserId}`
             );
             console.log('User Profile Response:', userProfileResponse.data);
             return userProfileResponse.data;
@@ -618,7 +619,7 @@ return (
           className="profile-image"
           src={
             userDetailsForUser.photo
-              ? `http://127.0.0.1:8000${userDetailsForUser.photo}`
+              ? `http://${ip}:8000${userDetailsForUser.photo}`
               : pfimg
           }
           alt={`User ${index + 1}`}

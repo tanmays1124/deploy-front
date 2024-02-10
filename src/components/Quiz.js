@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Quiz.css";
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
+import ip from '../ipaddr.js'
 
 const Quiz = (props) => {
   const [currIndex, setCurrIndex] = useState(0);
@@ -91,7 +92,7 @@ const Quiz = (props) => {
         const userid = localStorage.getItem("userId");
 
         const postData = async () => {
-          const url = "http://127.0.0.1:8000/api/questionhistorycreate/";
+          const url = "http://${ip}:8000/api/questionhistorycreate/";
 
           const newQuestionHistory = {
             user: userid,

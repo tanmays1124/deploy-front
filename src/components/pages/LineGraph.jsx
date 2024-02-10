@@ -3,6 +3,8 @@ import Chart from "react-apexcharts";
 import Box from '@mui/material/Box';
 import Sidenav from './Sidenav';
 import "./LineGraph.css";
+import ip from '../../ipaddr.js'
+
 
 function LineGraph() {
   const [data, setDatabaseData] = useState([]);
@@ -22,7 +24,7 @@ function LineGraph() {
     const fetchData = async () => {
       try {
         const userId = localStorage.getItem('userId')
-        const response = await fetch(`http://127.0.0.1:8000/api/questionhistoryget/?user_id=${userId}`);
+        const response = await fetch(`http://${ip}:8000/api/questionhistoryget/?user_id=${userId}`);
         const fetchedData = await response.json();
         setDatabaseData(fetchedData);
 

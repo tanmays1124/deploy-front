@@ -6,6 +6,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
+import ip from '../../ipaddr.js'
 
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';

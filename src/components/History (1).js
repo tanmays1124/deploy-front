@@ -5,6 +5,8 @@ import "./History (1).css";
 import bg1 from "../images/history1.png";
 import Navbar from "./Navbar";
 import Layout from './Layout';
+import ip from '../ipaddr.js'
+
 
 const History = ({ userId, setUserId ,open}) => {
   const styles = {
@@ -63,7 +65,7 @@ const History = ({ userId, setUserId ,open}) => {
       const userid =  localStorage.getItem('userId');
 
       const response = await fetch(
-        `http://127.0.0.1:8000/api/questionhistoryget/?user_id=${userid}`
+        `http://${ip}:8000/api/questionhistoryget/?user_id=${userid}`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");

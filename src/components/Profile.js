@@ -4,6 +4,8 @@ import "./Profile.css"; // Make sure this import is correct
 import axios from "axios";
 import Layout from "./Layout";
 import pfimg from "../images/profile.jpg";
+import ip from '../ipaddr.js'
+
 
 const Profile = () => {
   const [disable, setDisable] = useState(true);
@@ -61,7 +63,7 @@ const Profile = () => {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/update/${userId}`,
+        `http://${ip}:8000/api/update/${userId}`,
         formData
       );
 
@@ -95,7 +97,7 @@ const Profile = () => {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/upload/${userId}`,
+        `http://${ip}:8000/api/upload/${userId}`,
         formData,
         {
           headers: {
@@ -120,7 +122,7 @@ const Profile = () => {
     
     try {
       // Make a DELETE request to the deleteUserProfile API endpoint
-      const response = await axios.delete(`http://127.0.0.1:8000/api/delete/${userId}`);
+      const response = await axios.delete(`http://${ip}:8000/api/delete/${userId}`);
       
       // Check if the request was successful
       if (response.status === 204) {
@@ -144,7 +146,7 @@ const Profile = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/userprofile/${userId}`);
+      const response = await fetch(`http://${ip}:8000/api/userprofile/${userId}`);
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -159,7 +161,7 @@ const Profile = () => {
       setEmail(data.email);
        
       if (data.photo != null){
-      const completePhotoUrl = `http://127.0.0.1:8000${data.photo}`;
+      const completePhotoUrl = `http://${ip}:8000${data.photo}`;
       setPhotoSrc(completePhotoUrl);
       }
 

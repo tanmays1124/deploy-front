@@ -48,7 +48,7 @@
 //     }
 
 //     try {
-//       const response = await axios.post('http://127.0.0.1:8000/api/register/', formData);
+//       const response = await axios.post('http://${ip}:8000/api/register/', formData);
 
 //       setError(null);
 //       console.log(response.data);
@@ -292,6 +292,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./Registration.css";
 import log from "../images/Log.png";
+import ip from '../ipaddr.js'
+
 // import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 // import { library } from '@fortawesome/fontawesome-svg-core';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -370,7 +372,7 @@ function Register() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/register/",
+        `http://${ip}:8000/api/register/`,
         formData
       );
       // setError(null);

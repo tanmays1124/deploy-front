@@ -114,17 +114,21 @@ const Profile = () => {
     }
   };
   const handleDelete = async() =>{
-    if(confirm("Are You Sure You want to delete Account?")==true)
+    if(confirm("Are You Sure You want to delete Account?")===true)
     {
 
     
     try {
       // Make a DELETE request to the deleteUserProfile API endpoint
-      const response = await axios.post(`http://127.0.0.1:8000/api/delete/${userId}`);
+      const response = await axios.delete(`http://127.0.0.1:8000/api/delete/${userId}`);
       
       // Check if the request was successful
       if (response.status === 204) {
         console.log('User profile deleted successfully.');
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('username');
+        localStorage.removeItem('csrf_token');
         navigate('/login')
         // Perform any additional actions you want after successful deletion
       } else {

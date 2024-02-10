@@ -88,6 +88,8 @@ const Navbar = ({ token, setToken, user, setUser, setLogged, page }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('username');
+    localStorage.removeItem('csrf_token');
+
     navigate('/login');
   };
 

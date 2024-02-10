@@ -175,9 +175,9 @@ function BarGraph() {
                   <label htmlFor="difficultyDropdown">Select Difficulty:</label>
                   <select id="difficultyDropdown" onChange={handleDifficultyChange} value={selectedDifficulty}>
                     <option value="">All Difficulties</option>
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="difficult">Difficult</option>
+                    <option value="easy">easy</option>
+                    <option value="medium">medium</option>
+                    <option value="difficult">difficult</option>
                   </select>
                 </>
               )}

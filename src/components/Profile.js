@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import "./Profile.css"; // Make sure this import is correct
 import axios from "axios";
 import Layout from "./Layout";
 import pfimg from "../images/profile.jpg";
-import ip from '../ipaddr.js'
-
+import ip from "../ipaddr.js";
 
 const Profile = () => {
   const [disable, setDisable] = useState(true);
@@ -20,7 +19,7 @@ const Profile = () => {
   const [disableSave, setDisableSave] = useState(true);
   const [disableChooseFile, setDisableChooseFile] = useState(true);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
 
   const handleUpdate = () => {
@@ -115,38 +114,37 @@ const Profile = () => {
       console.error("Error uploading photo:", error);
     }
   };
-  const handleDelete = async() =>{
-    if(confirm("Are You Sure You want to delete Account?")===true)
-    {
+  const handleDelete = async () => {
+    if (confirm("Are You Sure You want to delete Account?") === true) {
+      try {
+        // Make a DELETE request to the deleteUserProfile API endpoint
+        const response = await axios.delete(
+          `http://${ip}:8000/api/delete/${userId}`
+        );
 
-    
-    try {
-      // Make a DELETE request to the deleteUserProfile API endpoint
-      const response = await axios.delete(`http://${ip}:8000/api/delete/${userId}`);
-      
-      // Check if the request was successful
-      if (response.status === 204) {
-        console.log('User profile deleted successfully.');
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('username');
-        localStorage.removeItem('csrf_token');
-        navigate('/login')
-        // Perform any additional actions you want after successful deletion
-      } else {
-        console.error('Failed to delete user profile:', response.data.error);
+        // Check if the request was successful
+        if (response.status === 204) {
+          console.log("User profile deleted successfully.");
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("username");
+          localStorage.removeItem("csrf_token");
+          navigate("/login");
+          // Perform any additional actions you want after successful deletion
+        } else {
+          console.error("Failed to delete user profile:", response.data.error);
+        }
+      } catch (error) {
+        console.error("Error occurred while deleting user profile:", error);
       }
-    } catch (error) {
-      console.error('Error occurred while deleting user profile:', error);
     }
-    
-  }
   };
-
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch(`http://${ip}:8000/api/userprofile/${userId}`);
+      const response = await fetch(
+        `http://${ip}:8000/api/userprofile/${userId}`
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -159,10 +157,10 @@ const Profile = () => {
       setLastName(data.last_name);
       setUsername(data.username);
       setEmail(data.email);
-       
-      if (data.photo != null){
-      const completePhotoUrl = `http://${ip}:8000${data.photo}`;
-      setPhotoSrc(completePhotoUrl);
+
+      if (data.photo != null) {
+        const completePhotoUrl = `http://${ip}:8000${data.photo}`;
+        setPhotoSrc(completePhotoUrl);
       }
 
       setIsImageChanged(false);
@@ -175,32 +173,27 @@ const Profile = () => {
     fetchUserData();
   }, []);
 
- 
   return (
     <>
-   
-   <Layout>
+      <Layout>
         <div className="container shadow rounded mt-5 mb-5 profile-container">
-          
-            <div className="col-md-12">
-              <div className="d-flex p-3 top-container">
-                
-                <div className="d-flex align-items-center row">
-                  
-                  <div className="profile-image-container">
-                    <img
-                      className="rounded-circle"
-                      width="160px"
-                      height="160px"
-                      src={photoSrc || pfimg}
-                      alt="Profile"
-                    />
-                  </div>
-                  <div className="profile-info-container ">
-                    <strong className="text-black-50">{username}</strong>
-                  </div>
-                  
-                  {disableUpdate ? (
+          <div className="col-md-12">
+            <div className="d-flex p-3 top-container">
+              <div className="d-flex align-items-center row">
+                <div className="profile-image-container">
+                  <img
+                    className="rounded-circle"
+                    width="160px"
+                    height="160px"
+                    src={photoSrc || pfimg}
+                    alt="Profile"
+                  />
+                </div>
+                <div className="profile-info-container ">
+                  <strong className="text-black-50">{username}</strong>
+                </div>
+
+                {disableUpdate ? (
                   <div className="upload-photo">
                     <label className="upload">
                       <input
@@ -210,19 +203,15 @@ const Profile = () => {
                         onChange={handlePhotoChange}
                         disabled={disableChooseFile}
                         id="profilePictureInput"
-                        style={{disable:"hidden"}}
+                        style={{ disable: "hidden" }}
                       />
-                      
-                      
                     </label>
                   </div>
                 ) : null}
-                </div>
-                
-               
               </div>
-              <hr className="divider" />
-            
+            </div>
+            <hr className="divider" />
+
             <div className="col-md-12">
               <div className="p-3 py-5 bottom-container">
                 <div className="row mt-2">
@@ -282,7 +271,7 @@ const Profile = () => {
                   <button
                     className="btn btn-outline-danger profile-button"
                     type="button"
-                    onClick={handleDelete}                    
+                    onClick={handleDelete}
                   >
                     Delete Profile
                   </button>

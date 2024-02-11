@@ -70,55 +70,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
     {errorMessage}
   </div>
 </div>
-      {/* <center>
-        <div className="partition">
-
-          <div className="login-container">
-            <div className="title">Login</div>
-            <div className="content">
-              {errorMessage && (
-                <div id="alert" className="error-message">
-                  {errorMessage}
-                </div>
-              )}
-              <form action="#" onSubmit={handleSubmit}>
-                <div className="user-details">
-                  <div className="inputbox">
-                    <input
-                      name="username"
-                      type="text"
-                      placeholder="Username"
-                      id="username"
-                      value={formData.username}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div className="inputbox">
-                    <div className="password-input-container">
-                      <input
-                        name="password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                        id="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      </div>
-                  </div>
-                </div>
-                <div className="button" >
-                  <input type="submit" value="Login" />
-                </div>
-                <Link to="/register"className="register-link">Register?</Link>
-                <Link to="http://${ip}:8000/api/forgot_password/" className="forgot">Forgot Password</Link>
-              </form>
-            </div>
-          </div>
-        </div>
-        </center> */}
-
+  
       <div class="login">
         
 

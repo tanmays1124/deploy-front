@@ -548,18 +548,10 @@ return (
       <br />
       <hr />
       <br />
-      {/* <h2>Score Filter: {scoreFilter}</h2> */}
-      {/* <div className="score-filter-dropdown">
-        <select value={scoreFilter} onChange={(e) => handleScoreFilterChange(e.target.value)}>
-    
-          <option value="Less Than 3">Less than 3</option>
-          <option value="Between 3 And 5">3 to 5</option>
-          <option value="Greater Than Or Equal 5">5 or more</option>
-        </select>
-      </div> */}
 
 
-      {/* {scoreFilter !== 'All' && ( */}
+
+  
         <>
           <h2>Select Difficulty:</h2>
           <div className="difficulty-dropdown">
@@ -569,13 +561,11 @@ return (
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="difficult">Difficult</option>
-              {/* <option value="All">All</option> */}
+      
             </select>
           </div>
         </>
-      {/* )} */}
 
-      {/* Render domain selection only when a difficulty level is selected */}
       {showDomainSelection && (
         <>
           <h2>Domains:</h2>

@@ -32,19 +32,7 @@ const Quiz = (props) => {
     option.style.color = "white";
     console.log(val);
 
-    // if (val === currOptions[currAnswer]) {
-    //   console.log("correct");
-    //   console.log(currQuestion);
-    //   setAttempted((prevAttempted) => [...prevAttempted, currQuestion]);
-    //   setIsCorrect((prevIsCorrect) => [...prevIsCorrect, true]);
-    //   props.setScore(props.score + 1);
-    //   console.log(props.score);
-    // } else {
-    //   console.log("Incorrect");
-    //   console.log(currQuestion);
-    //   setAttempted((prevAttempted) => [...prevAttempted, currQuestion]);
-    //   setIsCorrect((prevIsCorrect) => [...prevIsCorrect, false]);
-    // }
+    
   };
 
   const handleNext = () => {

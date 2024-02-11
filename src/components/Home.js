@@ -12,9 +12,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Loading from "./Loading";
 import axios from "axios";
-import Layout from './Layout';
-import ip from '../ipaddr.js'
-
+import Layout from "./Layout";
+import ip from "../ipaddr.js";
 
 const Modal = (props) => {
   // const [allUpdated, setAllUpdated] = useState(false);
@@ -36,8 +35,6 @@ const Modal = (props) => {
     }));
   };
 
-
-
   // const handleStart = () => {
   //   console.log("Selected value:", selectedValues.select1);
   //   console.log("Selected value:", selectedValues.select2);
@@ -45,7 +42,6 @@ const Modal = (props) => {
   //   console.log("Selected value:", props.category);
   // };
 
-  
   const handleStart = async (event) => {
     event.preventDefault();
     console.log("Selected value:", selectedValues.select1);
@@ -53,19 +49,12 @@ const Modal = (props) => {
     console.log("Selected value:", selectedValues.select3);
     console.log("Selected value:", props.category);
 
-
-
-
-
-
-
-    if(selectedValues.select1=='1'){
-      difficulty = 'easy'
-    }else if(selectedValues.select1==2){
-      difficulty = 'medium'
-    }
-    else{
-      difficulty = 'difficult'
+    if (selectedValues.select1 == "1") {
+      difficulty = "easy";
+    } else if (selectedValues.select1 == 2) {
+      difficulty = "medium";
+    } else {
+      difficulty = "difficult";
     }
 
     if (selectedValues.select2 == 1) {
@@ -82,28 +71,19 @@ const Modal = (props) => {
       num_questions = 20;
     }
 
-
-    props.setDifficultyLevel(difficulty)
-    props.setTypeOfquestion(type_of_question)
-    props.setNumber(num_questions)
-
-
-
-
-
+    props.setDifficultyLevel(difficulty);
+    props.setTypeOfquestion(type_of_question);
+    props.setNumber(num_questions);
 
     try {
+      const user_id = localStorage.getItem("userId");
 
-      
-  const user_id = localStorage.getItem('userId')
-  
-      const response = await axios.get("http://${ip}:8000/api/questions/", {
+      const response = await axios.get(`http://${ip}:8000/api/questions/`, {
         params: {
           category: props.category,
           user_id: user_id,
           difficulty: difficulty,
           num_questions: num_questions,
-          
         },
       });
 
@@ -132,29 +112,10 @@ const Modal = (props) => {
         props.options,
         props.answers
       );
-
-
-
     } catch (err) {
       console.error("Error" + err);
     }
-
   };
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
 
   useEffect(() => {
     if (
@@ -167,35 +128,25 @@ const Modal = (props) => {
     ) {
       props.setAllUpdated(true);
       navigate("/quiz");
-      
-      console.log(props.questions,props.options,props.answers)
+
+      console.log(props.questions, props.options, props.answers);
     }
   }, [props.questions, props.options, props.answers]);
-
-
-
-
-
-
-  
 
   // useEffect(() => {
   //   if (allUpdated) {
   //     const delayAndNavigate = async () => {
   //       // Perform some actions here before navigating
   //       console.log('Performing actions...');
-  
+
   //       // Pause for 2 seconds
   //       await new Promise(resolve => setTimeout(resolve, 1000));
-        
-  
+
   //       // Navigate to another page
   //       navigate('/quiz');
   //       setAllUpdated(false)
   //     };
   //     delayAndNavigate();
-
-
 
   //     console.log(
   //       "All three states are updated:",
@@ -206,12 +157,8 @@ const Modal = (props) => {
   //   }
   // }, [allUpdated]);
 
-
-
-
   return (
     <>
-    
       <div
         className="modal fade"
         id="staticBackdrop"
@@ -291,7 +238,6 @@ const Modal = (props) => {
               >
                 Start Quiz
               </button>
-              
             </div>
           </div>
         </div>
@@ -301,33 +247,31 @@ const Modal = (props) => {
 };
 
 const Cards = (props) => {
-
   const handleModal = (title) => {
     props.setCategory(title);
   };
-
 
   return (
     <>
       {/* {loading ? (
         <Loading />
       ) : ( */}
-        <div
-          className="col-lg-3 col-md-4 col-sm-6"
-          data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
-          onClick={() => handleModal(props.title)}
-        >
-          <div className="card rounded bg-secondary domain-card">
-            <img src={props.image} className="card-img-top" alt="title" />
-            <div className="card-body">
-              <h5 className="card-title">
-                <p>{props.title}</p>
-              </h5>
-              <p className="card-text">{props.content}</p>
-            </div>
+      <div
+        className="col-lg-3 col-md-4 col-sm-6"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+        onClick={() => handleModal(props.title)}
+      >
+        <div className="card rounded bg-secondary domain-card">
+          <img src={props.image} className="card-img-top" alt="title" />
+          <div className="card-body">
+            <h5 className="card-title">
+              <p>{props.title}</p>
+            </h5>
+            <p className="card-text">{props.content}</p>
           </div>
         </div>
+      </div>
       {/* )} */}
     </>
   );
@@ -356,44 +300,34 @@ const Home = ({
   category,
   setCategory,
   allUpdated,
-  setAllUpdated
+  setAllUpdated,
 }) => {
   console.log(userId);
-  console.log(typeof localStorage.getItem('userId'))
+  console.log(typeof localStorage.getItem("userId"));
   const navigate = useNavigate();
 
-useEffect(()=>{
-  if (!localStorage.getItem('token')){
-    navigate('/login')
-  }
-})
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    }
+  });
 
-
-
-
-
-
-const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-
-
-
-
   return (
     <>
-    
       {/* <Navbar
         user={user}
         setUser={user}
@@ -402,157 +336,153 @@ const [windowWidth, setWindowWidth] = useState(window.innerWidth);
         setLogged={setLogged}
         page={"Home"}
       /> */}
-      
-      <Layout>
-        
-<div className="background">
-      <div className="container" style={{ overflowX: 'hidden' }}> 
-        <div className="row">
-          <Cards
-            title={"Linux"}
-            image={linux}
-            content={
-              "Click to begin attempt on Linux and it's sub-domain topics."
-            }
-            questions={questions}
-            setQuestions={setQuestions}
-            answers={answers}
-            setAnswers={setAnswers}
-            options={options}
-            setOptions={setOptions}
-            category={category}
-            setCategory={setCategory}
-            user={user}
-            setUser={setUser}
-          />
-          <Cards
-            title={"MongoDB"}
-            image={mongodb}
-            content={
-              "Click to begin attempt on Mongo and it's sub-domain topics."
-            }
-            questions={questions}
-            setQuestions={setQuestions}
-            answers={answers}
-            setAnswers={setAnswers}
-            options={options}
-            setOptions={setOptions}
-            category={category}
-            setCategory={setCategory}
-            user={user}
-            setUser={setUser}
-          />
-          <Cards
-            title={"AIML"}
-            image={ml}
-            content={
-              "Click to begin attempt on AI/ML and it's sub-domain topics."
-            }
-            questions={questions}
-            setQuestions={setQuestions}
-            answers={answers}
-            setAnswers={setAnswers}
-            options={options}
-            setOptions={setOptions}
-            category={category}
-            setCategory={setCategory}
-            user={user}
-            setUser={setUser}
-          />
-          <Cards
-            title={"HTML"}
-            image={html}
-            content={
-              "Click to begin attempt on HTML and it's sub-domain topics."
-            }
-            questions={questions}
-            setQuestions={setQuestions}
-            answers={answers}
-            setAnswers={setAnswers}
-            options={options}
-            setOptions={setOptions}
-            category={category}
-            setCategory={setCategory}
-            user={user}
-            setUser={setUser}
-          />
-           <Cards
-            title={"Python"}
-            image={pyimg}
-            content={
-              "Click to begin attempt on Python and it's sub-domain topics."
-            }
-            questions={questions}
-            setQuestions={setQuestions}
-            answers={answers}
-            setAnswers={setAnswers}
-            options={options}
-            setOptions={setOptions}
-            category={category}
-            setCategory={setCategory}
-            user={user}
-            setUser={setUser}
-          />
-           <Cards
-            title={"SQL"}
-            image={sql}
-            content={
-              "Click to begin attempt on SQL and it's sub-domain topics."
-            }
-            questions={questions}
-            setQuestions={setQuestions}
-            answers={answers}
-            setAnswers={setAnswers}
-            options={options}
-            setOptions={setOptions}
-            category={category}
-            setCategory={setCategory}
-            user={user}
-            setUser={setUser}
-          />
-           <Cards
-            title={"Docker"}
-            image={docker}
-            content={
-              "Click to begin attempt on Docker and it's sub-domain topics."
-            }
-            questions={questions}
-            setQuestions={setQuestions}
-            answers={answers}
-            setAnswers={setAnswers}
-            options={options}
-            setOptions={setOptions}
-            category={category}
-            setCategory={setCategory}
-            user={user}
-            setUser={setUser}
-          />
-           
-        </div>
-      </div>
-      </div>
-      <Modal
-        questions={questions}
-        setQuestions={setQuestions}
-        answers={answers}
-        setAnswers={setAnswers}
-        options={options}
-        setOptions={setOptions}
-        category={category}
-        setCategory={setCategory}
-        difficultyLevel = {difficultyLevel}
-        setDifficultyLevel = {setDifficultyLevel}
-        typeOfQuestion = {typeOfQuestion}
-        setTypeOfquestion = {setTypeOfquestion}
-        number  ={number}
-        setNumber = {setNumber}
-        userId = {userId}
-        setUserId = {setUserId}
-        allUpdated={allUpdated}
-        setAllUpdated = {setAllUpdated}
 
-      />
-      
+      <Layout>
+        <div className="background">
+          <div className="container" style={{ overflowX: "hidden" }}>
+            <div className="row">
+              <Cards
+                title={"Linux"}
+                image={linux}
+                content={
+                  "Click to begin attempt on Linux and it's sub-domain topics."
+                }
+                questions={questions}
+                setQuestions={setQuestions}
+                answers={answers}
+                setAnswers={setAnswers}
+                options={options}
+                setOptions={setOptions}
+                category={category}
+                setCategory={setCategory}
+                user={user}
+                setUser={setUser}
+              />
+              <Cards
+                title={"MongoDB"}
+                image={mongodb}
+                content={
+                  "Click to begin attempt on Mongo and it's sub-domain topics."
+                }
+                questions={questions}
+                setQuestions={setQuestions}
+                answers={answers}
+                setAnswers={setAnswers}
+                options={options}
+                setOptions={setOptions}
+                category={category}
+                setCategory={setCategory}
+                user={user}
+                setUser={setUser}
+              />
+              <Cards
+                title={"AIML"}
+                image={ml}
+                content={
+                  "Click to begin attempt on AI/ML and it's sub-domain topics."
+                }
+                questions={questions}
+                setQuestions={setQuestions}
+                answers={answers}
+                setAnswers={setAnswers}
+                options={options}
+                setOptions={setOptions}
+                category={category}
+                setCategory={setCategory}
+                user={user}
+                setUser={setUser}
+              />
+              <Cards
+                title={"HTML"}
+                image={html}
+                content={
+                  "Click to begin attempt on HTML and it's sub-domain topics."
+                }
+                questions={questions}
+                setQuestions={setQuestions}
+                answers={answers}
+                setAnswers={setAnswers}
+                options={options}
+                setOptions={setOptions}
+                category={category}
+                setCategory={setCategory}
+                user={user}
+                setUser={setUser}
+              />
+              <Cards
+                title={"Python"}
+                image={pyimg}
+                content={
+                  "Click to begin attempt on Python and it's sub-domain topics."
+                }
+                questions={questions}
+                setQuestions={setQuestions}
+                answers={answers}
+                setAnswers={setAnswers}
+                options={options}
+                setOptions={setOptions}
+                category={category}
+                setCategory={setCategory}
+                user={user}
+                setUser={setUser}
+              />
+              <Cards
+                title={"SQL"}
+                image={sql}
+                content={
+                  "Click to begin attempt on SQL and it's sub-domain topics."
+                }
+                questions={questions}
+                setQuestions={setQuestions}
+                answers={answers}
+                setAnswers={setAnswers}
+                options={options}
+                setOptions={setOptions}
+                category={category}
+                setCategory={setCategory}
+                user={user}
+                setUser={setUser}
+              />
+              <Cards
+                title={"Docker"}
+                image={docker}
+                content={
+                  "Click to begin attempt on Docker and it's sub-domain topics."
+                }
+                questions={questions}
+                setQuestions={setQuestions}
+                answers={answers}
+                setAnswers={setAnswers}
+                options={options}
+                setOptions={setOptions}
+                category={category}
+                setCategory={setCategory}
+                user={user}
+                setUser={setUser}
+              />
+            </div>
+          </div>
+        </div>
+        <Modal
+          questions={questions}
+          setQuestions={setQuestions}
+          answers={answers}
+          setAnswers={setAnswers}
+          options={options}
+          setOptions={setOptions}
+          category={category}
+          setCategory={setCategory}
+          difficultyLevel={difficultyLevel}
+          setDifficultyLevel={setDifficultyLevel}
+          typeOfQuestion={typeOfQuestion}
+          setTypeOfquestion={setTypeOfquestion}
+          number={number}
+          setNumber={setNumber}
+          userId={userId}
+          setUserId={setUserId}
+          allUpdated={allUpdated}
+          setAllUpdated={setAllUpdated}
+        />
       </Layout>
     </>
   );

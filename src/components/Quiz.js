@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Quiz.css";
-import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
-import ip from '../ipaddr.js'
+import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
+import ip from "../ipaddr.js";
 
 const Quiz = (props) => {
   const [currIndex, setCurrIndex] = useState(0);
@@ -27,12 +27,10 @@ const Quiz = (props) => {
     for (const selectedOption of selectedOptions) {
       selectedOption.style.background = "#aedaed";
       selectedOption.style.color = "black";
-
     }
     option.style.background = "#023252";
     option.style.color = "white";
     console.log(val);
-    
 
     // if (val === currOptions[currAnswer]) {
     //   console.log("correct");
@@ -69,7 +67,6 @@ const Quiz = (props) => {
     for (const option of options) {
       option.style.backgroundColor = "#aedaed";
       option.style.color = "black";
-
     }
 
     if (currIndex < props.questions.length - 1) {
@@ -81,55 +78,55 @@ const Quiz = (props) => {
       // Update Quiz History for the current question
       // updateHistory(currQuestion, currOptions, currOptions[currAnswer]);
       setTimer(15);
-    } 
-    if (attempted.length === props.questions.length && isCorrect.length === props.questions.length) {
-
-      
-      console.log(attempted)
+    }
+    if (
+      attempted.length === props.questions.length &&
+      isCorrect.length === props.questions.length
+    ) {
+      console.log(attempted);
 
       // Ensure state is updated before navigating
-      
-        const userid = localStorage.getItem("userId");
 
-        const postData = async () => {
-          const url = "http://${ip}:8000/api/questionhistorycreate/";
+      const userid = localStorage.getItem("userId");
 
-          const newQuestionHistory = {
-            user: userid,
-            domain: props.category,
-            difficulty_level: props.difficultyLevel,
-            score: props.score,
-            attempted_questions: attempted.map((q_text, index) => ({
-              q_text,
-              is_correct: isCorrect[index],
-            })),
-          };
+      const postData = async () => {
+        const url = `http://${ip}:8000/api/questionhistorycreate/`;
 
-          try {
-            const response = await fetch(url, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(newQuestionHistory),
-            });
-
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const responseData = await response.json();
-            console.log("New Question History created:", responseData);
-          } catch (error) {
-            console.error("Error posting data:", error);
-          }
+        const newQuestionHistory = {
+          user: userid,
+          domain: props.category,
+          difficulty_level: props.difficultyLevel,
+          score: props.score,
+          attempted_questions: attempted.map((q_text, index) => ({
+            q_text,
+            is_correct: isCorrect[index],
+          })),
         };
 
-        // Call the postData function
-        postData();
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newQuestionHistory),
+          });
 
-        navigate("/quizend");
-      
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const responseData = await response.json();
+          console.log("New Question History created:", responseData);
+        } catch (error) {
+          console.error("Error posting data:", error);
+        }
+      };
+
+      // Call the postData function
+      postData();
+
+      navigate("/quizend");
     }
   };
 
@@ -184,7 +181,10 @@ const Quiz = (props) => {
       <center>
         <h1>Quiz</h1>
       </center>
-      <div className="timer"><AccessAlarmsIcon/>:&nbsp;<strong>{timer}</strong></div>
+      <div className="timer">
+        <AccessAlarmsIcon />
+        :&nbsp;<strong>{timer}</strong>
+      </div>
       <div className="question-container">
         <p className="question">{currQuestion}</p>
         <div className="centered-container">
@@ -211,8 +211,13 @@ const Quiz = (props) => {
       {/* <button className="next-button" >
         Next
       </button> */}
-      <button type="button" onClick={handleNext} class="next btn btn-outline-info">Next</button>
-
+      <button
+        type="button"
+        onClick={handleNext}
+        class="next btn btn-outline-info"
+      >
+        Next
+      </button>
     </div>
   );
 };

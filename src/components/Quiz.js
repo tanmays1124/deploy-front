@@ -70,15 +70,17 @@ const Quiz = (props) => {
     if (
       attempted.length === props.questions.length &&
       isCorrect.length === props.questions.length
-    ) {
+    ) 
+    {
       console.log(attempted);
+      console.log(props.token)
 
       // Ensure state is updated before navigating
 
       const userid = localStorage.getItem("userId");
 
       const postData = async () => {
-        const url = `http://${ip}:8000/api/questionhistorycreate/`;
+        const url = `http://${ip}:8000/api/quiz-history/`;
 
         const newQuestionHistory = {
           user: userid,
@@ -95,7 +97,8 @@ const Quiz = (props) => {
           const response = await fetch(url, {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
+              'Authorization': `Bearer ${props.token}`,
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify(newQuestionHistory),
           });

@@ -310,6 +310,7 @@ const Home = ({
     if (!localStorage.getItem("token")) {
       navigate("/login");
     }
+    
   });
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -482,6 +483,8 @@ const Home = ({
           setUserId={setUserId}
           allUpdated={allUpdated}
           setAllUpdated={setAllUpdated}
+          token = {token}
+          setToken = {setToken}
         />
       </Layout>
     </>

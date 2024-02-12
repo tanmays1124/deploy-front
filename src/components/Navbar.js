@@ -22,6 +22,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; 
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import ip from "../ipaddr.js";
 
 const drawerWidth = 240;
 
@@ -85,12 +86,31 @@ const Navbar = ({ token, setToken, user, setUser, setLogged, page }) => {
 
 
   const handleLogout = () => {
+    fetch(`http://${ip}:8000/api/logout/`, {
+      method: 'POST',
+      credentials: 'include',
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      navigate('/login');
+      console.log('Logout successful:', data);
+    })
+    .catch(error => {
+      // Handle any errors that occurred during logout
+      console.error('Error during logout:', error);
+    });
+
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.removeItem('username');
     localStorage.removeItem('csrf_token');
 
-    navigate('/login');
+    
   };
 
 

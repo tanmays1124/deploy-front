@@ -164,6 +164,8 @@ const App = () => {
               setCategory={setCategory}
               score={score}
               setScore={setScore}
+              token = {token}
+              setToken = {setToken}
             />
           }
         />

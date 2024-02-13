@@ -2,7 +2,7 @@
 // import axios from 'axios';
 // import './board.css';
 // import pfimg from './profile.jpg';
-  
+
 // export default function Board() {
 //     const [leaderboard, setLeaderboard] = useState([]);
 //     const [difficulty, setDifficulty] = useState('Easy');
@@ -14,15 +14,15 @@
 //     const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState(false);
 //     const [error, setError] = useState(null);
 //     const [scoreFilter, setScoreFilter] = useState('All');
-  
+
 //     useEffect(() => {
 //       fetchUserData();
 //     }, [domain, difficulty]);
-  
+
 //     useEffect(() => {
 //       fetchLeaderboardData();
 //     }, [userPhoto]);
-  
+
 //     const fetchUserData = async () => {
 //       try {
 //         const userId = localStorage.getItem('userId');
@@ -31,7 +31,7 @@
 //         const response = await axios.get(`http://${ip}:8000/api/userprofile/${userId}`);
 //         const userData = response.data;
 //         console.log('Fetched user data:', userData);
-  
+
 //         if (userData.photo !== null) {
 //           const completePhotoUrl = `http://${ip}:8000${userData.photo}`;
 //           setUserPhoto(completePhotoUrl);
@@ -40,7 +40,7 @@
 //         }
 //       } catch (error) {
 //         console.error('Error fetching user data:', error);
-  
+
 //         if (error.response && error.response.status === 404) {
 //           setUserPhoto('default-photo-url');
 //         } else {
@@ -50,19 +50,19 @@
 //         setIsLoadingUserData(false);
 //       }
 //     };
-  
+
 //     const fetchLeaderboardData = async () => {
 //       setIsLoadingLeaderboard(true);
-  
+
 //       try {
 //         const difficultyParam = difficulty !== 'All' ? `&difficulty_level=${difficulty}` : '';
 //         const domainParam = domain !== 'All' ? `&domain=${domain}` : '';
 //         const response = await axios.get(
 //           `http://${ip}:8000/api/questionhistoryget/?${difficultyParam}${domainParam}`
 //         );
-  
+
 //         console.log('Fetched Leaderboard Data:', response.data);
-  
+
 //         const fetchedLeaderboard = response.data.map((item) => ({
 //           userId: item.user,
 //           username: '',
@@ -71,10 +71,10 @@
 //           difficulty_level: item.difficulty_level,
 //           photo: item.photo || 'default-photo-url',
 //         }));
-  
+
 //         const uniqueUserIds = Array.from(new Set(fetchedLeaderboard.map((item) => item.userId)));
 //         const usernameMap = new Map();
-  
+
 //         await Promise.all(
 //           uniqueUserIds.map(async (uniqueUserId) => {
 //             try {
@@ -82,9 +82,9 @@
 //                 `http://${ip}:8000/api/userprofile/${uniqueUserId}`
 //               );
 //               console.log('User Profile Response:', userProfileResponse.data);
-  
+
 //               const { username, photo } = userProfileResponse.data;
-  
+
 //               if (username) {
 //                 usernameMap.set(uniqueUserId, { username, photo });
 //               }
@@ -93,17 +93,17 @@
 //             }
 //           })
 //         );
-  
+
 //         setLeaderboard((prevLeaderboard) =>
 //           prevLeaderboard.map((user) => {
 //             const userDetail = usernameMap.get(user.userId) || {};
 //             return { ...user, username: userDetail.username, photo: userDetail.photo || user.photo };
 //           })
 //         );
-  
+
 //         const finalLeaderboard = filterAndRankLeaderboard(fetchedLeaderboard);
 //         setLeaderboard(finalLeaderboard);
-  
+
 //         const uniqueDomainsArray = Array.from(
 //           new Set(fetchedLeaderboard.map((item) => item.domain))
 //         );
@@ -114,14 +114,10 @@
 //         setIsLoadingLeaderboard(false);
 //       }
 //     };
-  
+
 //     const handleScoreFilterChange = (newScoreFilter) => {
 //       setScoreFilter(newScoreFilter);
 //     };
-  
-
-  
-
 
 //   const filterAndRankLeaderboard = (fetchedLeaderboard) => {
 //     const userMap = new Map();
@@ -196,7 +192,6 @@
 
 //   console.log('Leaderboard State:', leaderboard);
 
-
 // // Pagination logic
 // const itemsPerPage = 3;
 // const [currentPage, setCurrentPage] = useState(1);
@@ -210,7 +205,6 @@
 // const handlePageChange = (pageNumber) => {
 //   setCurrentPage(pageNumber);
 // };
-
 
 //   return (
 //     <div className="container">
@@ -305,7 +299,6 @@
 //     </button>
 //   </div>
 // )}
-        
 
 //       {leaderboard.length === 0 && !isLoadingUserData && !isLoadingLeaderboard && !error && (
 //         <div className="board" style={{ textAlign: 'mid-center' }}>
@@ -317,43 +310,37 @@
 //   );
 // }
 
-
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './board.css';
-import pfimg from './profile.jpg';
-import ip from '../../ipaddr.js'
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./board.css";
+import pfimg from "./profile.jpg";
+import ip from "../../ipaddr.js";
 
 export default function Board() {
-  const [userId, setUserid] = useState('');
+  const [userId, setUserid] = useState("");
   const [leaderboard, setLeaderboard] = useState([]);
-  const [difficulty, setDifficulty] = useState('Easy');
-  const [domain, setDomain] = useState('All');
+  const [difficulty, setDifficulty] = useState("Easy");
+  const [domain, setDomain] = useState("All");
   const [showDomainSelection, setShowDomainSelection] = useState(false);
   const [uniqueDomains, setUniqueDomains] = useState([]);
-  const [userPhoto, setUserPhoto] = useState('default-photo-url'); // Set a default photo URL
+  const [userPhoto, setUserPhoto] = useState("default-photo-url"); // Set a default photo URL
   const [isLoadingUserData, setIsLoadingUserData] = useState(false);
   const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState(false);
   const [error, setError] = useState(null);
-  const [scoreFilter, setScoreFilter] = useState('All');
+  const [scoreFilter, setScoreFilter] = useState("All");
   const [userNames, setUserNames] = useState([]);
   const [userPhotos, setUserPhotos] = useState([]);
   const [uniqueUserIds, setUniqueUserIds] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
 
-
-
   let user_names = [];
-  
 
   useEffect(() => {
-    const fetchedUserId = localStorage.getItem('userId');
+    const fetchedUserId = localStorage.getItem("userId");
     setUserid(fetchedUserId);
     // fetchUserData(fetchedUserId);
     fetchLeaderboardData();
   }, [difficulty, domain]);
-
 
   // const fetchUserData = async (userId) => {
   //   try {
@@ -381,57 +368,61 @@ export default function Board() {
     setError(null);
 
     try {
-      const difficultyParam = difficulty !== 'All' ? `&difficulty_level=${difficulty}` : '';
-      const domainParam = domain !== 'All' ? `&domain=${domain}` : '';
+      const difficultyParam =
+        difficulty !== "All" ? `&difficulty_level=${difficulty}` : "";
+      const domainParam = domain !== "All" ? `&domain=${domain}` : "";
       const response = await axios.get(
         `http://${ip}:8000/api/questionhistoryget/?${difficultyParam}${domainParam}`
       );
 
-      console.log('Fetched Leaderboard Data:', response.data);
+      console.log("Fetched Leaderboard Data:", response.data);
 
       const fetchedLeaderboard = response.data.map((item) => ({
         userId: item.user,
-        username: '', // Initialize username as an empty string
+        username: "", // Initialize username as an empty string
         score: JSON.parse(item.score),
         domain: item.domain,
         difficulty_level: item.difficulty_level,
         photo: item.photo,
       }));
-  
-      const uniqueUserIdsArray = Array.from(new Set(fetchedLeaderboard.map((item) => item.userId)));
+
+      const uniqueUserIdsArray = Array.from(
+        new Set(fetchedLeaderboard.map((item) => item.userId))
+      );
       const usernameMap = new Map();
       setUniqueUserIds(uniqueUserIdsArray);
-  
+
       const userDetailsArray = await Promise.all(
         uniqueUserIdsArray.map(async (uniqueUserId) => {
           try {
             const userProfileResponse = await axios.get(
               `http://${ip}:8000/api/userprofile/?user_id=${uniqueUserId}`
             );
-            console.log('User Profile Response:', userProfileResponse.data);
+            console.log("User Profile Response:", userProfileResponse.data);
             return userProfileResponse.data;
           } catch (error) {
-            console.error('Error fetching username and photo:', error);
+            console.error("Error fetching username and photo:", error);
             return null;
           }
         })
       );
-  
+
       setUserDetails(userDetailsArray);
-      console.log('state',userDetails)
-  
+      console.log("state", userDetails);
 
       // Update the leaderboard state with usernames and photos
       setLeaderboard((prevLeaderboard) =>
         prevLeaderboard.map((user) => {
           const userDetail = usernameMap.get(user.userId) || {};
-          return { ...user, username: userDetail.username
-             ,photo: userDetail.photo || user.photo 
-            };
+          return {
+            ...user,
+            username: userDetail.username,
+            photo: userDetail.photo || user.photo,
+          };
         })
       );
 
-      console.log("done",leaderboard)
+      console.log("done", leaderboard);
 
       const finalLeaderboard = filterAndRankLeaderboard(fetchedLeaderboard);
       setLeaderboard(finalLeaderboard);
@@ -441,14 +432,12 @@ export default function Board() {
       );
       setUniqueDomains(uniqueDomainsArray);
     } catch (error) {
-      console.error('Error fetching leaderboard data:', error);
-      setError('Error fetching leaderboard data');
+      console.error("Error fetching leaderboard data:", error);
+      setError("Error fetching leaderboard data");
     } finally {
       setIsLoadingLeaderboard(false);
     }
   };
-
-  
 
   const handleScoreFilterChange = (newScoreFilter) => {
     setScoreFilter(newScoreFilter);
@@ -467,13 +456,13 @@ export default function Board() {
         // case 'All':
         //   isScoreFilterPassed = true;
         //   break;
-        case 'LessThan3':
+        case "LessThan3":
           isScoreFilterPassed = maxScore < 3;
           break;
-        case 'Between3And5':
+        case "Between3And5":
           isScoreFilterPassed = maxScore >= 3 && maxScore <= 5;
           break;
-        case 'GreaterThanOrEqual5':
+        case "GreaterThanOrEqual5":
           isScoreFilterPassed = maxScore >= 5;
           break;
         default:
@@ -482,8 +471,8 @@ export default function Board() {
 
       // Check difficulty and domain conditions along with the score filter
       if (
-        (current.difficulty_level === difficulty || difficulty === 'All') &&
-        (current.domain === domain || domain === 'All') &&
+        (current.difficulty_level === difficulty || difficulty === "All") &&
+        (current.domain === domain || domain === "All") &&
         isScoreFilterPassed
       ) {
         if (!userMap.has(userKey)) {
@@ -518,152 +507,166 @@ export default function Board() {
 
   const handleDifficultyChange = (newDifficulty) => {
     setDifficulty(newDifficulty);
-    setShowDomainSelection(newDifficulty !== 'All');
+    setShowDomainSelection(newDifficulty !== "All");
   };
 
   const handleDomainChange = (newDomain) => {
     setDomain(newDomain);
   };
 
-  console.log('Leaderboard State:', leaderboard);
+  console.log("Leaderboard State:", leaderboard);
 
+  // Pagination logic
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
 
-// Pagination logic
-const itemsPerPage = 5;
-const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = leaderboard.slice(indexOfFirstItem, indexOfLastItem);
+  // const a = currentItems.map((user, index) => {
+  //     fetchUserData(user.userID)
+  // })
 
-const indexOfLastItem = currentPage * itemsPerPage;
-const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-const currentItems = leaderboard.slice(indexOfFirstItem, indexOfLastItem);
-// const a = currentItems.map((user, index) => {
-//     fetchUserData(user.userID)
-// })
+  const totalPages = Math.ceil(leaderboard.length / itemsPerPage);
 
-const totalPages = Math.ceil(leaderboard.length / itemsPerPage);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
-const handlePageChange = (pageNumber) => {
-  setCurrentPage(pageNumber);
-};
+  return (
+    <div className="container">
+      <div className="sidebar">
+        <h2>LEADER BOARD</h2>
+        <br />
+        <hr />
+        <br />
 
-
-return (
-  <div className="container">
-    <div className="sidebar">
-      <h2>LEADER BOARD</h2>
-      <br />
-      <hr />
-      <br />
-
-
-
-  
         <>
           <h2>Select Difficulty:</h2>
           <div className="difficulty-dropdown">
-            <select value={difficulty} onChange={(e) => handleDifficultyChange(e.target.value)}>
-            <option value="All">Select Difficulty</option>
+            <select
+              value={difficulty}
+              onChange={(e) => handleDifficultyChange(e.target.value)}
+            >
+              <option value="All">Select Difficulty</option>
 
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="difficult">Difficult</option>
-      
             </select>
           </div>
         </>
 
-      {showDomainSelection && (
-        <>
-          <h2>Domains:</h2>
-          <div className="domain-dropdown">
-            <select value={domain} onChange={(e) => handleDomainChange(e.target.value)}>
-              {['All', ...uniqueDomains].map((domain) => (
-                <option key={domain} value={domain}>
-                  {domain}
-                </option>
-              ))}
-            </select>
-          </div>
-        </>
+        {showDomainSelection && (
+          <>
+            <h2>Domains:</h2>
+            <div className="domain-dropdown">
+              <select
+                value={domain}
+                onChange={(e) => handleDomainChange(e.target.value)}
+              >
+                {["All", ...uniqueDomains].map((domain) => (
+                  <option key={domain} value={domain}>
+                    {domain}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </>
+        )}
+      </div>
+
+      {(isLoadingUserData || isLoadingLeaderboard) && <p>Loading...</p>}
+
+      {error && <p>Error: {error}</p>}
+      {leaderboard.length > 0 && (
+        <div className="board" style={{ textAlign: "center" }}>
+          <h1 className="leaderboard">LEADER BOARD</h1>
+          {showDomainSelection && difficulty !== "All" && (
+            <h2 className="header-text">{`${domain}-${difficulty}`}</h2>
+          )}
+
+          {currentItems.map((user, index) => {
+            const userIndex = uniqueUserIds.indexOf(user.userId);
+            const userDetailsForUser = userDetails[userIndex];
+            console.log("aaa", userDetailsForUser);
+
+            return (
+              <div key={index} className="user-profile">
+                <div className="rank-section">
+                  <span className="rank"># {user.rank}</span>
+                  {index < 3 && currentPage === 1 && (
+                    <span className="medal-icon">
+                      {index === 0 ? "🥇" : index === 1 ? "🥈" : "🥉"}
+                    </span>
+                  )}
+                </div>
+                
+                <div className="user-details">
+                  <img
+                    className="profile-image"
+                    src={
+                      userDetailsForUser[0].photo
+                        ? userDetailsForUser[0].photo
+                        : pfimg
+                    }
+                    alt={`User ${index + 1}`}
+                    width="50px"
+                    height="50px"
+                  />
+
+                  <span className="username">
+                    &nbsp;&nbsp;
+                    <strong>{userDetailsForUser[0].username}</strong>
+                  </span>
+                </div>
+                <div className="score-section">
+                  <p className="score">
+                    Score: <strong>{user.maxScore}</strong>
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )}
-    </div>
 
-    {(isLoadingUserData || isLoadingLeaderboard) && <p>Loading...</p>}
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => handlePageChange(index + 1)}
+              className={currentPage === index + 1 ? "active" : ""}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
 
-    {error && <p>Error: {error}</p>}
-    {leaderboard.length > 0 && (
-      <div className="board" style={{ textAlign: 'center' }}>
-        <h1 className="leaderboard">LEADER BOARD</h1>
-        {showDomainSelection && difficulty !== 'All' && (
-          <h2 className="header-text">{`${domain}-${difficulty}`}</h2>
+      {leaderboard.length === 0 &&
+        !isLoadingUserData &&
+        !isLoadingLeaderboard &&
+        !error && (
+          <div className="board" style={{ textAlign: "mid-center" }}>
+            <h1 className="leaderboard">LEADERBOARD</h1>
+            <p>Select the difficulty level and domain.</p>
+          </div>
         )}
-
-       {currentItems.map((user, index) => {
-  const userIndex = uniqueUserIds.indexOf(user.userId);
-  const userDetailsForUser = userDetails[userIndex];
-  console.log('aaa',userDetailsForUser)
-
-  return (
-    <div key={index} className="user-profile">
-      <div className="rank-section">
-        <span className="rank"># {user.rank}</span>
-        {(index < 3 && currentPage === 1) && (
-          <span className="medal-icon">{index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}</span>
-        )}
-      </div>
-      <div className="user-details">
-        <img
-          className="profile-image"
-          src={
-            userDetailsForUser[0].photo
-              ? `http://${ip}:8000${userDetailsForUser[0].photo}`
-              : pfimg
-          }
-          alt={`User ${index + 1}`}
-          width="50px"
-          height="50px"
-        />
-
-        <span className="username">&nbsp;&nbsp;<strong>{userDetailsForUser[0].username}</strong></span>
-      </div>
-      <div className="score-section">
-        <p className="score">Score: <strong>{user.maxScore}</strong></p>
-      </div>
     </div>
   );
-})}
-      </div>
-    )}
-
-    {/* Pagination */}
-    {totalPages > 1 && (
-      <div className="pagination">
-        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-          Previous
-        </button>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => handlePageChange(index + 1)}
-            className={currentPage === index + 1 ? 'active' : ''}
-          >
-            {index + 1}
-          </button>
-        ))}
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
-    )}
-
-    {leaderboard.length === 0 && !isLoadingUserData && !isLoadingLeaderboard && !error && (
-      <div className="board" style={{ textAlign: 'mid-center' }}>
-        <h1 className="leaderboard">LEADERBOARD</h1>
-        <p>Select the difficulty level and domain.</p>
-      </div>
-    )}
-  </div>
-);
 }

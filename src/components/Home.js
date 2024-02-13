@@ -81,11 +81,17 @@ const Modal = (props) => {
       const response = await axios.get(`http://${ip}:8000/api/questions/`, {
         params: {
           category: props.category,
-          user_id: user_id,
+          
           difficulty: difficulty,
           num_questions: num_questions,
-        },
-      });
+        }},
+        {
+          headers: {
+            'Authorization': `Bearer ${props.token}`,
+            'Content-type': 'application/json'
+          }
+        }
+      );
 
       let que = [];
       let ans = [];
@@ -133,29 +139,7 @@ const Modal = (props) => {
     }
   }, [props.questions, props.options, props.answers]);
 
-  // useEffect(() => {
-  //   if (allUpdated) {
-  //     const delayAndNavigate = async () => {
-  //       // Perform some actions here before navigating
-  //       console.log('Performing actions...');
 
-  //       // Pause for 2 seconds
-  //       await new Promise(resolve => setTimeout(resolve, 1000));
-
-  //       // Navigate to another page
-  //       navigate('/quiz');
-  //       setAllUpdated(false)
-  //     };
-  //     delayAndNavigate();
-
-  //     console.log(
-  //       "All three states are updated:",
-  //       props.questions,
-  //       props.options,
-  //       props.answers
-  //     );
-  //   }
-  // }, [allUpdated]);
 
   return (
     <>
@@ -198,20 +182,6 @@ const Modal = (props) => {
                 </div>
               </div>
 
-              {/* <div className="row">
-                <div className="col" style={{ marginBottom: "20px" }}>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    onChange={(e) => handleDropdownChange("select2", e)}
-                    value={selectedValues.select2}
-                  >
-                    <option defaultValue>Select Type of questions</option>
-                    <option value="1">One Word</option>
-                    <option value="2">MCQ</option>
-                  </select>
-                </div>
-              </div> */}
 
               <div className="row">
                 <div className="col" style={{ marginBottom: "20px" }}>

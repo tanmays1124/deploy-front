@@ -69,10 +69,14 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   }, [token]);
 
   useEffect(() => {
-    if(tokenUpdated)
+    if(tokenUpdated){
     navigate("/home");
-  
+  }
   }, [tokenUpdated]);
+
+  useEffect(()=>{
+    setToken("");
+  },[])
 
   return (
     <>

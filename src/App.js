@@ -12,7 +12,7 @@ import Quiz from "./components/Quiz";
 import Forgot from "./components/Forgot";
 import Profile from "./components/Profile";
 import Leaderboard from "./components/Leaderboard.js";
-// import Linegraph from "./components/pages/LineGraph";
+import Navbar from "./components/Navbar";
 // import Bargraph from "./components/pages/BarGraph";
 // import Pie from "./components/pages/Pie";
 // import bg from "../images/bg33.jpg";
@@ -192,6 +192,7 @@ const App = () => {
         />
         <Route path="/forgot" exact element={<Forgot />} />
         <Route path="/profile" exact element={<Profile token={token}/>} />
+        <Route path="/nav" exact element={<Navbar token={token} setToken={setToken}/>} />
       </Routes>
     </Router>
   );

@@ -100,6 +100,8 @@ const App = () => {
               setUser={setUser}
               userId={userId}
               setUserId={setUserId}
+              token = {token}
+              setToken = {setToken}
             />
           }
         />
@@ -113,6 +115,8 @@ const App = () => {
               setUser={setUser}
               userId={userId}
               setUserId={setUserId}
+              token = {token}
+              setToken = {setToken}
             />
           }
         />
@@ -133,6 +137,7 @@ const App = () => {
               setUser={setUser}
               userId={userId}
               setUserId={setUserId}
+              token = {token}
             />
           }
         />
@@ -186,7 +191,7 @@ const App = () => {
           }
         />
         <Route path="/forgot" exact element={<Forgot />} />
-        <Route path="/profile" exact element={<Profile />} />
+        <Route path="/profile" exact element={<Profile token={token}/>} />
       </Routes>
     </Router>
   );

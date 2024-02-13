@@ -23,6 +23,8 @@ import InfoIcon from '@mui/icons-material/Info';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; 
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import ip from "../ipaddr.js";
+import Cookies from 'js-cookie';
+
 
 const drawerWidth = 240;
 
@@ -97,6 +99,7 @@ const Navbar = ({ token, setToken, user, setUser, setLogged, page }) => {
       return response.json();
     })
     .then(data => {
+      Cookies.remove('jwt');
       navigate('/login');
       console.log('Logout successful:', data);
     })

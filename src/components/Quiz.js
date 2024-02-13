@@ -73,7 +73,7 @@ const Quiz = (props) => {
     ) 
     {
       console.log(attempted);
-      console.log(props.token)
+      // console.log(props.token)
 
       // Ensure state is updated before navigating
 
@@ -94,6 +94,7 @@ const Quiz = (props) => {
         };
 
         try {
+          console.log("token",props.token)
           const response = await fetch(url, {
             method: "POST",
             headers: {

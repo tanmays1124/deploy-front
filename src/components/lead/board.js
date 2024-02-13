@@ -355,26 +355,26 @@ export default function Board() {
   }, [difficulty, domain]);
 
 
-  const fetchUserData = async (userId) => {
-    try {
-      setIsLoadingUserData(true);
-      const response = await axios.get(`http://${ip}:8000/api/userprofile/${userId}`);
-      const userData = response.data;
-      console.log('Fetched user data:', userData);
+  // const fetchUserData = async (userId) => {
+  //   try {
+  //     setIsLoadingUserData(true);
+  //     const response = await axios.get(`http://${ip}:8000/api/userprofile/${userId}`);
+  //     const userData = response.data;
+  //     console.log('Fetched user data:', userData);
 
-      if (userData.photo !== null) {
-        const completePhotoUrl = `http://${ip}:8000${userData.photo}`;
-        setUserPhoto(completePhotoUrl);
-      } else {
-        setUserPhoto('default-photo-url');
-      }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      setError('Error fetching user data');
-    } finally {
-      setIsLoadingUserData(false);
-    }
-  };
+  //     if (userData.photo !== null) {
+  //       const completePhotoUrl = `http://${ip}:8000${userData.photo}`;
+  //       setUserPhoto(completePhotoUrl);
+  //     } else {
+  //       setUserPhoto('default-photo-url');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching user data:', error);
+  //     setError('Error fetching user data');
+  //   } finally {
+  //     setIsLoadingUserData(false);
+  //   }
+  // };
 
   const fetchLeaderboardData = async () => {
     setIsLoadingLeaderboard(true);
@@ -406,7 +406,7 @@ export default function Board() {
         uniqueUserIdsArray.map(async (uniqueUserId) => {
           try {
             const userProfileResponse = await axios.get(
-              `http://${ip}:8000/api/userprofile/${uniqueUserId}`
+              `http://${ip}:8000/api/userprofile/?user_id=${uniqueUserId}`
             );
             console.log('User Profile Response:', userProfileResponse.data);
             return userProfileResponse.data;
@@ -418,15 +418,20 @@ export default function Board() {
       );
   
       setUserDetails(userDetailsArray);
+      console.log('state',userDetails)
   
 
       // Update the leaderboard state with usernames and photos
       setLeaderboard((prevLeaderboard) =>
         prevLeaderboard.map((user) => {
           const userDetail = usernameMap.get(user.userId) || {};
-          return { ...user, username: userDetail.username, photo: userDetail.photo || user.photo };
+          return { ...user, username: userDetail.username
+             ,photo: userDetail.photo || user.photo 
+            };
         })
       );
+
+      console.log("done",leaderboard)
 
       const finalLeaderboard = filterAndRankLeaderboard(fetchedLeaderboard);
       setLeaderboard(finalLeaderboard);
@@ -595,6 +600,7 @@ return (
        {currentItems.map((user, index) => {
   const userIndex = uniqueUserIds.indexOf(user.userId);
   const userDetailsForUser = userDetails[userIndex];
+  console.log('aaa',userDetailsForUser)
 
   return (
     <div key={index} className="user-profile">
@@ -608,15 +614,16 @@ return (
         <img
           className="profile-image"
           src={
-            userDetailsForUser.photo
-              ? `http://${ip}:8000${userDetailsForUser.photo}`
+            userDetailsForUser[0].photo
+              ? `http://${ip}:8000${userDetailsForUser[0].photo}`
               : pfimg
           }
           alt={`User ${index + 1}`}
           width="50px"
           height="50px"
         />
-        <span className="username">&nbsp;&nbsp;<strong>{userDetailsForUser.username}</strong></span>
+
+        <span className="username">&nbsp;&nbsp;<strong>{userDetailsForUser[0].username}</strong></span>
       </div>
       <div className="score-section">
         <p className="score">Score: <strong>{user.maxScore}</strong></p>

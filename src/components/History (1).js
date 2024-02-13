@@ -8,7 +8,7 @@ import Layout from './Layout';
 import ip from '../ipaddr.js'
 
 
-const History = ({ userId, setUserId ,open}) => {
+const History = ({ userId, setUserId ,open, token, setToken}) => {
   const styles = {
     background: {
       backgroundImage: `url(${bg1})`,
@@ -62,23 +62,32 @@ const History = ({ userId, setUserId ,open}) => {
 
   const fetchUserQuestionHistory = async () => {
     try {
-      const userid =  localStorage.getItem('userId');
-
+  
+      // Make GET request to fetch user question history
       const response = await fetch(
-        `http://${ip}:8000/api/questionhistoryget/?user_id=${userid}`
+        `http://${ip}:8000/api/quiz-history/`,
+        {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+
+            'Content-Type': 'application/json'
+          }
+        }
       );
+  
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
+  
       const data = await response.json();
-
       setQuestionHistory(data);
-      console.log(data)
-
+      console.log(data);
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error('Error fetching user data:', error);
     }
   };
+  
 
   useEffect(() => {
     if (!localStorage.getItem('token')){
@@ -155,7 +164,7 @@ const History = ({ userId, setUserId ,open}) => {
                   </div>
                   {selectedQuiz === quiz && (
                     <div className="answers">
-                      {toJSON(selectedQuiz.attempted_questions).map(
+                      {selectedQuiz.attempted_questions.map(
                         (attempt, index) => (
                           <div
                             key={index}

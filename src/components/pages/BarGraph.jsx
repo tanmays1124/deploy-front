@@ -5,7 +5,7 @@ import "./BarGraph.css";
 import ip from '../../ipaddr.js'
 
 
-function BarGraph() {
+function BarGraph({token}) {
   const [data, setDatabaseData] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState('Linux');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
@@ -28,13 +28,22 @@ function BarGraph() {
       const userId = localStorage.getItem('userId') 
       try {
         const userId = localStorage.getItem('userId')
-        const response = await fetch(`http://${ip}:8000/api/questionhistoryget/?user_id=${userId}`);
+        const response = await fetch(
+          `http://${ip}:8000/api/quiz-history/`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+  
+              'Content-Type': 'application/json'
+            }
+          }
+        );
         const fetchedData = await response.json();
 
         if (fetchedData) {
           setDatabaseData(fetchedData);
 
-          // Extract and set unique domain names
           const uniqueDomainNames = [...new Set(fetchedData.map(item => item.domain))];
           setDomainNames(uniqueDomainNames);
         } else {

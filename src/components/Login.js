@@ -6,6 +6,7 @@ import log from "../images/Log.png";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "./Login.css";
 import ip from "../ipaddr.js";
+import Cookies from 'js-cookie';
 
 const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [formData, setFormData] = useState({
@@ -41,7 +42,9 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
       console.log(response.data);
       setToken(response.data.jwt);
       localStorage.setItem("token", response.data.jwt);
-      // localStorage.setItem("userId", response.data.id);
+      Cookies.set('jwt', response.data.jwt, { expires: 7, secure: false });
+
+      localStorage.setItem("userId", response.data.id);
       // localStorage.setItem("username", response.data.username);
       // setUser(response.data.username);
       // setLogged(true);

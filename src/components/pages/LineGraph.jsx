@@ -6,7 +6,7 @@ import "./LineGraph.css";
 import ip from '../../ipaddr.js'
 
 
-function LineGraph() {
+function LineGraph({token}) {
   const [data, setDatabaseData] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState("");
@@ -24,7 +24,17 @@ function LineGraph() {
     const fetchData = async () => {
       try {
         const userId = localStorage.getItem('userId')
-        const response = await fetch(`http://${ip}:8000/api/questionhistoryget/?user_id=${userId}`);
+        const response = await fetch(
+          `http://${ip}:8000/api/quiz-history/`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+  
+              'Content-Type': 'application/json'
+            }
+          }
+        );
         const fetchedData = await response.json();
         setDatabaseData(fetchedData);
 

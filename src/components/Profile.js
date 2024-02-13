@@ -6,7 +6,7 @@ import Layout from "./Layout";
 import pfimg from "../images/profile.jpg";
 import ip from "../ipaddr.js";
 
-const Profile = () => {
+const Profile = ({token}) => {
   const [disable, setDisable] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -56,15 +56,24 @@ const Profile = () => {
       first_name: document.querySelector('[name="first_name"]').value,
       last_name: document.querySelector('[name="last_name"]').value,
       email: document.querySelector('[name="email"]').value,
+      // photo: document.querySelector('name="photo"').files[0],
     };
 
     console.log("Form Data:", formData);
 
     try {
-      const response = await axios.post(
-        `http://${ip}:8000/api/update/${userId}`,
-        formData
-      );
+      const response = await axios.put(
+        `http://${ip}:8000/api/update/`,
+        formData,
+        {
+            headers: {
+                'Content-Type': 'application/json', // Specify the content type if needed
+                'Authorization': `Bearer ${token}`, // Include the JWT token if required
+                // Add other headers as needed
+            }
+        }
+    );
+    
 
       console.log(response.data);
       setDisable(true);
@@ -95,11 +104,13 @@ const Profile = () => {
     formData.append("photo", photo);
 
     try {
-      const response = await axios.post(
-        `http://${ip}:8000/api/upload/${userId}`,
+      const userId = localStorage.getItem('userId')
+      const response = await axios.put(
+        `http://${ip}:8000/api/update/`,
         formData,
         {
           headers: {
+            'Authorization': `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -119,11 +130,18 @@ const Profile = () => {
       try {
         // Make a DELETE request to the deleteUserProfile API endpoint
         const response = await axios.delete(
-          `http://${ip}:8000/api/delete/${userId}`
-        );
+          `http://${ip}:8000/api/user/`,
+          {
+              headers: {
+                  'Content-Type': 'application/json', // Specify the content type if needed
+                  'Authorization': `Bearer ${token}`, // Include the JWT token if required
+                  // Add other headers as needed
+              }
+          }
+      );
 
         // Check if the request was successful
-        if (response.status === 204) {
+        if (response.status === 200) {
           console.log("User profile deleted successfully.");
           localStorage.removeItem("token");
           localStorage.removeItem("userId");
@@ -143,12 +161,16 @@ const Profile = () => {
   const fetchUserData = async () => {
     try {
       const response = await fetch(
-        `http://${ip}:8000/api/userprofile/${userId}`
-      );
+        `http://${ip}:8000/api/user/`,
+        {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
       const data = await response.json();
       console.log("Fetched user data:", data);
@@ -204,6 +226,7 @@ const Profile = () => {
                         disabled={disableChooseFile}
                         id="profilePictureInput"
                         style={{ disable: "hidden" }}
+                        name='photo'
                       />
                     </label>
                   </div>

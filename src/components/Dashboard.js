@@ -11,7 +11,7 @@ import Layout from './Layout';
 import ip from '../ipaddr.js'
 
 
-function Dashboard({ open }) {
+function Dashboard({ open, token, setToken }) {
   const [quizData, setQuizData] = useState([]);
   const [totalQuizzes, setTotalQuizzes] = useState(0);
   const [totalIncorrectQuestions, setTotalIncorrectQuestions] = useState(0);
@@ -25,7 +25,17 @@ function Dashboard({ open }) {
       try {
         const userId = localStorage.getItem('userId')
 
-        const response = await fetch(`http://${ip}:8000/api/questionhistoryget/?user_id=${userId}`);
+        const response = await fetch(
+          `http://${ip}:8000/api/quiz-history/`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+  
+              'Content-Type': 'application/json'
+            }
+          }
+        );
         const fetchedData = await response.json();
   
         if (fetchedData) {
@@ -51,22 +61,22 @@ function Dashboard({ open }) {
   // print(totalQuizzes)
   const incorrectQuestions = quizData.reduce((total, item) => {
     try {
-      const attemptedQuestions = typeof item.attempted_questions === 'string'
-        ? item.attempted_questions
-        .replace(/OrderedDict\(\[\(/g, "{")
-      .replace(/\]\)/g, "}")
-      .replace(/\)/g, "")
-      .replace(/\(/g, "")
-      .replace(/t\'\,/g, "t':")
-      .replace(/'/g, '"')
-      .replace(/True/g, "true")
-      .replace(/False/g, "false")
-        : item.attempted_questions;
+      const attemptedQuestions = item.attempted_questions 
+      //   ? item.attempted_questions
+      //   .replace(/OrderedDict\(\[\(/g, "{")
+      // .replace(/\]\)/g, "}")
+      // .replace(/\)/g, "")
+      // .replace(/\(/g, "")
+      // .replace(/t\'\,/g, "t':")
+      // .replace(/'/g, '"')
+      // .replace(/True/g, "true")
+      // .replace(/False/g, "false")
+      //   : item.attempted_questions;
   
-      const cleanedQuestions = JSON.parse(attemptedQuestions);
+      // const cleanedQuestions = JSON.parse(attemptedQuestions);
   
-      const incorrectCount = Array.isArray(cleanedQuestions)
-        ? cleanedQuestions.reduce((acc, question) => acc + (question && question.is_correct === false ? 1 : 0), 0)
+      const incorrectCount = Array.isArray(attemptedQuestions)
+        ? attemptedQuestions.reduce((acc, question) => acc + (question && question.is_correct === false ? 1 : 0), 0)
         : 0;
   
       return total + incorrectCount;
@@ -84,23 +94,23 @@ function Dashboard({ open }) {
 
   const correctQuestions = quizData.reduce((total, item) => {
     try {
-      const attemptedQuestions = typeof item.attempted_questions === 'string'
-        ? item.attempted_questions
-        .replace(/OrderedDict\(\[\(/g, "{")
-        .replace(/\]\)/g, "}")
-        .replace(/\)/g, "")
-        .replace(/\(/g, "")
-        .replace(/t\'\,/g, "t':")
-        .replace(/'/g, '"')
-        .replace(/True/g, "true")
-        .replace(/False/g, "false")
-        : item.attempted_questions;
+      const attemptedQuestions = item.attempted_questions
+        // ? item.attempted_questions
+        // .replace(/OrderedDict\(\[\(/g, "{")
+        // .replace(/\]\)/g, "}")
+        // .replace(/\)/g, "")
+        // .replace(/\(/g, "")
+        // .replace(/t\'\,/g, "t':")
+        // .replace(/'/g, '"')
+        // .replace(/True/g, "true")
+        // .replace(/False/g, "false")
+        // : item.attempted_questions;
   
-      const cleanedQuestions = JSON.parse(attemptedQuestions);
+      // const cleanedQuestions = JSON.parse(attemptedQuestions);
       // print(cleanedQuestions)
   
-      const correctCount = Array.isArray(cleanedQuestions)
-        ? cleanedQuestions.reduce((acc, question) => acc + (question && question.is_correct === true ? 1 : 0), 0)
+      const correctCount = Array.isArray(attemptedQuestions)
+        ? attemptedQuestions.reduce((acc, question) => acc + (question && question.is_correct === true ? 1 : 0), 0)
         : 0;
       console.log(total+correctCount)
       return total + correctCount;
@@ -192,10 +202,10 @@ function Dashboard({ open }) {
                 </div>
                 <div className="card-container-22" style={{ display: 'flex' }}>
                   <div className="card-12">
-                    <LineGraph />
+                    <LineGraph token={token}/>
                   </div>
                   <div className="card-12">
-                    <BarGraph />
+                    <BarGraph token={token}/>
                   </div>
                 </div>
               </div>

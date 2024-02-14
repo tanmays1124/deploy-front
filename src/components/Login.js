@@ -88,7 +88,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
         <div>{errorMessage}</div>
       </div>
 
-      <div class="login">
+      <div className="login">
         <h1>Login</h1>
         <form className="login-form" action="#" onSubmit={handleSubmit}>
           <input
@@ -97,7 +97,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
             name="username"
             value={formData.username}
             onChange={handleInputChange}
-            placeholder="Username"
+            placeholder="Username or Email"
             required="required"
           />
           <input
@@ -109,7 +109,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
             placeholder="Password"
             required="required"
           />
-          <button type="submit" class="login-btn">
+          <button type="submit" className="login-btn">
             Login
           </button>
         </form>

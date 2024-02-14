@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Quiz.css";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import ip from "../ipaddr.js";
-
+import Cookie from 'js-cookie'
 const Quiz = (props) => {
   const [currIndex, setCurrIndex] = useState(0);
   const [currQuestion, setCurrQuestion] = useState(props.questions[0]);
@@ -123,9 +123,7 @@ const Quiz = (props) => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/login");
-    }
+  
     if (
       attempted.length === props.questions.length &&
       isCorrect.length === props.questions.length
@@ -134,7 +132,12 @@ const Quiz = (props) => {
     }
   }, [attempted, isCorrect]);
 
-  useEffect(() => {}, [allUpdated]);
+  useEffect(() => 
+  {  
+    if (!Cookie.get("jwt")) {
+    navigate("/login");
+  }
+},[]);
 
   const updateHistory = (question, options, userAnswer) => {
     const isQuestionAlreadyAttempted = attempted.includes(question);

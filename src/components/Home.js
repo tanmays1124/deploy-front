@@ -14,6 +14,7 @@ import Loading from "./Loading";
 import axios from "axios";
 import Layout from "./Layout";
 import ip from "../ipaddr.js";
+import Cookie from "js-cookie";
 
 const Modal = (props) => {
   // const [allUpdated, setAllUpdated] = useState(false);
@@ -81,7 +82,6 @@ const Modal = (props) => {
       const response = await axios.get(`http://${ip}:8000/api/questions/`, {
         params: {
           category: props.category,
-          
           difficulty: difficulty,
           num_questions: num_questions,
         }},
@@ -277,11 +277,11 @@ const Home = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
+    if (!Cookie.get("jwt")) {
       navigate("/login");
     }
     
-  });
+  },[]);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 

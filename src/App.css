@@ -6,10 +6,10 @@ body {
   /* background-color: aliceblue; */
 
   /* background-color: whitesmoke !important; */
-  /* background-color: linear-gradient(#8572df40, rgba(0, 0, 0, 0)) ; */
+  background: linear-gradient(to right,rgb(57, 100, 187), rgba(221, 221, 221, 0.961)) !important;
 
   /* background: rgb(38, 179, 207) !important;  */
-  background: #ffffffae !important;
+  /* background: #ffffffae !important; */
   background-size: 100%;
 
   /* background-repeat: no-repeat; */

@@ -9,6 +9,7 @@ import "./pages/Dash.css";
 import Navbar from "./Navbar";
 import Layout from './Layout';
 import ip from '../ipaddr.js'
+import Cookie from 'js-cookie'
 
 
 function Dashboard({ open, token, setToken }) {
@@ -21,6 +22,9 @@ function Dashboard({ open, token, setToken }) {
 
 
   useEffect(() => {
+    if (!Cookie.get("jwt")) {
+      navigate("/login");
+    }
     const fetchQuizData = async () => {
       try {
         const userId = localStorage.getItem('userId')

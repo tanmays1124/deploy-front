@@ -6,7 +6,7 @@ import bg1 from "../images/history1.png";
 import Navbar from "./Navbar";
 import Layout from './Layout';
 import ip from '../ipaddr.js'
-
+import Cookie from "js-cookie"; 
 
 const History = ({ userId, setUserId ,open, token, setToken}) => {
   const styles = {
@@ -90,8 +90,8 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
   
 
   useEffect(() => {
-    if (!localStorage.getItem('token')){
-      navigate('/login')
+    if (!Cookie.get("jwt")) {
+      navigate("/login");
     }
     fetchUserQuestionHistory();
 

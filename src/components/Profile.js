@@ -5,6 +5,7 @@ import axios from "axios";
 import Layout from "./Layout";
 import pfimg from "../images/profile.jpg";
 import ip from "../ipaddr.js";
+import Cookie from 'js-cookie'
 
 const Profile = ({token}) => {
   const [disable, setDisable] = useState(true);
@@ -192,6 +193,9 @@ const Profile = ({token}) => {
   };
 
   useEffect(() => {
+    if (!Cookie.get("jwt")) {
+      navigate("/login");
+    }
     fetchUserData();
   }, []);
 

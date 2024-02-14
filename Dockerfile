@@ -10,7 +10,7 @@ COPY package*.json ./
 RUN npm install
 RUN npm install @mui/material
 RUN npm install react-scripts
-RUN npm install apexcharts
+RUN npm install apexcharts && npm install js-cookie
 # Copy the entire application to the working directory
 COPY . .
  

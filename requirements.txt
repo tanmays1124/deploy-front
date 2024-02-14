@@ -6,7 +6,6 @@ dnspython==2.4.2
 node==1.2.1
 npm==0.1.1
 odict==1.9.0
-optional-django==0.1.0
 plumber==1.7
 pymongo==4.6.1
 pytz==2023.3.post1

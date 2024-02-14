@@ -75,23 +75,22 @@ const Modal = (props) => {
     props.setDifficultyLevel(difficulty);
     props.setTypeOfquestion(type_of_question);
     props.setNumber(num_questions);
-
+    console.log(props.token)
     try {
       const user_id = localStorage.getItem("userId");
 
       const response = await axios.get(`http://${ip}:8000/api/questions/`, {
-        params: {
-          category: props.category,
-          difficulty: difficulty,
-          num_questions: num_questions,
-        }},
-        {
-          headers: {
-            'Authorization': `Bearer ${props.token}`,
-            'Content-type': 'application/json'
-          }
-        }
-      );
+  params: {
+    category: props.category,
+    difficulty: difficulty,
+    num_questions: num_questions,
+  },
+  headers: {
+    'Authorization': `Bearer ${props.token}`,
+    'Content-type': 'application/json'
+  }
+});
+
 
       let que = [];
       let ans = [];

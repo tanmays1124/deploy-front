@@ -16,10 +16,14 @@ import Layout from "./Layout";
 import ip from "../ipaddr.js";
 import Cookie from "js-cookie";
 
+
+
+
+
+
 const Modal = (props) => {
   // const [allUpdated, setAllUpdated] = useState(false);
   const navigate = useNavigate();
-
   const [selectedValues, setSelectedValues] = useState({
     select1: "",
     select2: "",
@@ -45,6 +49,7 @@ const Modal = (props) => {
 
   const handleStart = async (event) => {
     event.preventDefault();
+    props.setLoading(true)
     console.log("Selected value:", selectedValues.select1);
     console.log("Selected value:", selectedValues.select2);
     console.log("Selected value:", selectedValues.select3);
@@ -132,6 +137,7 @@ const Modal = (props) => {
       props.answers.length > 0
     ) {
       props.setAllUpdated(true);
+      props.setLoading(false)
       navigate("/quiz");
 
       console.log(props.questions, props.options, props.answers);
@@ -166,7 +172,7 @@ const Modal = (props) => {
             </div>
             <div className="modal-body container">
               <div className="row">
-                <div className="col" style={{ marginBottom: "20px" }}>
+                <div className="col-12" style={{ marginBottom: "20px" }}>
                   <select
                     className="form-select "
                     aria-label="Default select example"
@@ -183,7 +189,7 @@ const Modal = (props) => {
 
 
               <div className="row">
-                <div className="col" style={{ marginBottom: "20px" }}>
+                <div className="col-12" style={{ marginBottom: "20px" }}>
                   <select
                     className="form-select col"
                     aria-label="Default select example"
@@ -274,6 +280,7 @@ const Home = ({
   console.log(userId);
   console.log(typeof localStorage.getItem("userId"));
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!Cookie.get("jwt")) {
@@ -308,6 +315,7 @@ const Home = ({
       /> */}
 
       <Layout>
+        {loading ? (<Loading/>) : (
         <div className="background">
           <div className="container" style={{ overflowX: "hidden" }}>
             <div className="row">
@@ -432,7 +440,7 @@ const Home = ({
               />
             </div>
           </div>
-        </div>
+        </div>)}
         <Modal
           questions={questions}
           setQuestions={setQuestions}
@@ -454,6 +462,8 @@ const Home = ({
           setAllUpdated={setAllUpdated}
           token = {token}
           setToken = {setToken}
+          loading = {loading}
+          setLoading = {setLoading}
         />
       </Layout>
     </>

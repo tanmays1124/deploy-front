@@ -7,6 +7,7 @@ import log from "../images/Log.png";
 import "./Login.css";
 import ip from "../ipaddr.js";
 import Cookies from 'js-cookie';
+import Loading from './Loading'
 
 const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [show, setShow] = useState("fade");
   const [tokenUpdated, setTokenUpdated] = useState(false);
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
@@ -33,6 +35,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   // };
 
   const handleSubmit = async (event) => {
+    setLoading(true)
     event.preventDefault();
     try {
       const response = await axios.post(
@@ -50,36 +53,39 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
       // setLogged(true);
       // setUserId(response.data.id);
     } catch (err) {
+      setLoading(false)
       setErrorMessage("Invalid credentials!");
       setShow("show");
-      handleShake();
+      // handleShake();
       console.log(err);
     }
   };
 
-  const handleShake = () => {
-    shakeMe.classList.add("shake");
-    setTimeout(() => {
-      shakeMe.classList.remove("shake");
-    }, 500);
-  };
 
   useEffect(() => {
-    if (token.length>0) {setTokenUpdated(true);}
+    // setLoading(true)
+    if (token.length>0) {
+      setTokenUpdated(true);
+    }
   }, [token]);
 
+
   useEffect(() => {
+    setLoading(false)
     if(tokenUpdated){
     navigate("/home");
   }
   }, [tokenUpdated]);
+
 
   useEffect(()=>{
     setToken("");
   },[])
 
   return (
-    <>
+    
+     loading ? <Loading/>:(
+     <>
       <div
         className={`alert alert-danger d-flex align-items-center ${show}`}
         id="alert1"
@@ -87,9 +93,10 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
       >
         <div>{errorMessage}</div>
       </div>
-
+     
       <div className="login">
         <h1>Login</h1>
+        
         <form className="login-form" action="#" onSubmit={handleSubmit}>
           <input
             className="login-input"
@@ -125,7 +132,11 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
           </Link>
         </div>
       </div>
-    </>
+      </>
+      
+      )
+    
+    
   );
 };
 

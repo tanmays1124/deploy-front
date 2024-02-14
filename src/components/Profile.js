@@ -6,6 +6,7 @@ import Layout from "./Layout";
 import pfimg from "../images/profile.jpg";
 import ip from "../ipaddr.js";
 import Cookie from 'js-cookie'
+import Loading from './Loading'
 
 const Profile = ({token}) => {
   const [disable, setDisable] = useState(true);
@@ -19,7 +20,7 @@ const Profile = ({token}) => {
   const [disableUpdate, setDisableUpdate] = useState(false);
   const [disableSave, setDisableSave] = useState(true);
   const [disableChooseFile, setDisableChooseFile] = useState(true);
-
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
 
@@ -196,12 +197,19 @@ const Profile = ({token}) => {
     if (!Cookie.get("jwt")) {
       navigate("/login");
     }
+    setLoading(true)
     fetchUserData();
   }, []);
+
+
+  useEffect(()=>{
+    setLoading(false)
+  },[firstName,lastName,username,email])
 
   return (
     <>
       <Layout>
+        {loading ? <Loading/>:(
         <div className="container shadow rounded mt-5 mb-5 profile-container">
           <div className="col-md-12">
             <div className="d-flex p-3 top-container">
@@ -306,7 +314,7 @@ const Profile = ({token}) => {
               </div>
             </div>
           </div>
-        </div>
+        </div>)}
       </Layout>
     </>
   );

@@ -3,13 +3,14 @@ import Chart from "react-apexcharts";
 import Box from '@mui/material/Box';
 import "./BarGraph.css";
 import ip from '../../ipaddr.js'
-
+import Loading from '../Loading'
 
 function BarGraph({token}) {
   const [data, setDatabaseData] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState('Linux');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [domainNames, setDomainNames] = useState([]); // Added domainNames state
+  const [loading, setLoading] = useState(false)
   const [initialData, setInitialData] = useState({
     options: {
       colors: ["#FF6384", "#36A2EB", "#FFCE56"],
@@ -34,7 +35,6 @@ function BarGraph({token}) {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`,
-  
               'Content-Type': 'application/json'
             }
           }
@@ -53,6 +53,7 @@ function BarGraph({token}) {
         console.error('Error fetching data:', error);
       }
     };
+    setLoading(true)
 
     fetchData();
   }, []);
@@ -148,7 +149,7 @@ function BarGraph({token}) {
 
       updatedData.options.colors = domainNames.map((_, index) => `#${index % 2 ? 'FF6384' : '36A2EB'}`);
     }
-
+    setLoading(false)
     setInitialData(updatedData);
   }, [data, selectedDomain, selectedDifficulty, domainNames]);
 
@@ -164,6 +165,7 @@ function BarGraph({token}) {
   };
 
   return (
+    loading ? <Loading/> : (
     <>
        <Box sx={{ display: 'flex' }}>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -208,6 +210,7 @@ function BarGraph({token}) {
         </Box>
       </Box>
     </>
+    )
   );
 }
 

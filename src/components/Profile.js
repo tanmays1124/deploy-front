@@ -203,6 +203,7 @@ const Profile = ({token}) => {
 
 
   useEffect(()=>{
+    if(firstName.length > 0 && lastName.length > 0 && username.length > 0 && email.length > 0)
     setLoading(false)
   },[firstName,lastName,username,email])
 

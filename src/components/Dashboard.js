@@ -10,18 +10,17 @@ import Navbar from "./Navbar";
 import Layout from './Layout';
 import ip from '../ipaddr.js'
 import Cookie from 'js-cookie'
-
+import Loading from './Loading'
 
 function Dashboard({ open, token, setToken }) {
   const [quizData, setQuizData] = useState([]);
   const [totalQuizzes, setTotalQuizzes] = useState(0);
   const [totalIncorrectQuestions, setTotalIncorrectQuestions] = useState(0);
   const [totalCorrectQuestions, setTotalCorrectQuestions] = useState(0);
-  
-
 
 
   useEffect(() => {
+
     if (!Cookie.get("jwt")) {
       navigate("/login");
     }
@@ -144,6 +143,7 @@ function Dashboard({ open, token, setToken }) {
     console.log('Total Quizzes:', totalQuizzes);
     console.log('Total Incorrect Questions:', totalIncorrectQuestions);
     console.log('Total Correct Questions:', totalCorrectQuestions);
+
   }, [totalQuizzes, totalIncorrectQuestions, totalCorrectQuestions]);
 
 
@@ -152,8 +152,10 @@ function Dashboard({ open, token, setToken }) {
 
   return (
     <>
+
+
      <Layout open={open}>
-        <div className='bo'>
+     {loading ? <Loading/> : (   <div className='bo'>
           <Box sx={{ display: 'flex', flexDirection: 'column', maxHeight: '100%' }}>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
               <div className="App" style={{ color: '#1565C0' }}>
@@ -215,7 +217,7 @@ function Dashboard({ open, token, setToken }) {
               </div>
             </Box>
           </Box>
-        </div>
+        </div>)}
       </Layout>
     </>
   );

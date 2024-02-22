@@ -17,6 +17,7 @@ function Dashboard({ open, token, setToken }) {
   const [totalQuizzes, setTotalQuizzes] = useState(0);
   const [totalIncorrectQuestions, setTotalIncorrectQuestions] = useState(0);
   const [totalCorrectQuestions, setTotalCorrectQuestions] = useState(0);
+  const jwt = sessionStorage.getItem('jwt')
 
 
   useEffect(() => {
@@ -33,7 +34,7 @@ function Dashboard({ open, token, setToken }) {
           {
             method: 'GET',
             headers: {
-              'Authorization': `Bearer ${token}`,
+              'Authorization': `Bearer ${jwt}`,
   
               'Content-Type': 'application/json'
             }
@@ -152,13 +153,12 @@ function Dashboard({ open, token, setToken }) {
 
   return (
     <>
+    <Navbar/>
 
-
-     <Layout open={open}>   
      <div className='bo'>
           <Box sx={{ display: 'flex', flexDirection: 'column', maxHeight: '100%' }}>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-              <div className="App" style={{ color: '#1565C0' }}>
+              <div className="App" style={{ color: '#000' }}>
                 <div className='das'>
                   <h1>
                     Dashboard <i className="fas fa-tachometer-alt"></i>
@@ -218,7 +218,7 @@ function Dashboard({ open, token, setToken }) {
             </Box>
           </Box>
         </div>
-      </Layout>
+      
     </>
   );
 }

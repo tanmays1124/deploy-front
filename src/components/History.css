@@ -1,0 +1,141 @@
+.quiz-history-container {
+  margin-top: 100px !important;
+  padding: 20px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+ 
+.quiz-history {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+ 
+.quiz-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(250px, 1fr));
+  grid-gap: 20px;
+}
+ 
+.quiz-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  width:100%;
+  transition: transform 0.3s ease-in-out;
+}
+ 
+.quiz-card:hover {
+  transform: translateY(-5px);
+}
+ 
+.quiz-card.selected {
+  background-color: #fff;
+}
+ 
+
+.question-text{
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+ 
+.quiz-details {
+  
+  padding: 20px;
+}
+ 
+.quiz-details p {
+  margin: 0;
+}
+ 
+.answers {
+  margin-top: 10px;
+}
+ 
+.answer {
+  
+  padding-top: 10px;
+}
+ 
+/* .correct,
+.wrong {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+} */
+ 
+.correct::before {
+  content: "✔ ";
+  color: #0aa751;
+  margin-left: 20px;
+}
+
+.wrong::before {
+  content: "✘ ";
+  color: #ff4646;
+  margin-left: 20px;
+
+}
+
+ 
+.quiz-header {
+  font-size: 18px;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #2c8535;
+}
+ 
+.quiz-header.medium {
+  background-color: #2d8be4;
+  /* border-bottom-color: #bca600; */
+  color: #333;
+}
+ 
+.quiz-header.difficult {
+  background-color: #2d8be4;
+  /* border-bottom-color: #ba000d; */
+  color: #fff;
+}
+ 
+.quiz-header.easy {
+  background-color: #2d8be4;
+  /* border-bottom-color: #2c8535; */
+  color: #fff;
+}
+
+
+.quiz-card:hover {
+  transform: scale(1.02);
+  box-shadow: 1px 2px 8px 0px rgba(238, 234, 234, 0.459);
+  &.easy {
+    /* background: linear-gradient(#d6f5d6, #aaffaa);  */
+    box-shadow: 1px 2px 8px 0px rgb(95, 235, 95);
+    background-color: rgb(238, 225, 222);
+  }
+
+  &.medium {
+    /* background: linear-gradient(#fffae5, #ffd700);  */
+    box-shadow: 1px 2px 8px 0px rgb(255, 221, 0); /* Lighter yellow shadow */
+    background-color: rgb(238, 225, 222);
+  }
+
+  &.difficult {
+    /* background: linear-gradient(#ffbdbd, #e74c3c); */
+    box-shadow: 1px 2px 8px 0px rgb(251, 44, 7);
+    background-color: rgb(238, 225, 222);
+  }
+}
+
+ 
+.question-text {
+  color: #333;
+}
+ 
+.symbol {
+  margin-right: 10px;
+}

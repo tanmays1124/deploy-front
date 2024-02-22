@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import log from "../images/Log.png";
+import login from "../images/login.png";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "./Login.css";
 import ip from "../ipaddr.js";
-import Cookies from 'js-cookie';
-import Loading from './Loading'
+import Cookies from "js-cookie";
+import Loading from "./Loading";
 
 const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [formData, setFormData] = useState({
@@ -19,7 +19,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [show, setShow] = useState("fade");
   const [tokenUpdated, setTokenUpdated] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
@@ -35,7 +35,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   // };
 
   const handleSubmit = async (event) => {
-    setLoading(true)
+    setLoading(true);
     event.preventDefault();
     try {
       const response = await axios.post(
@@ -45,7 +45,10 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
       console.log(response.data);
       setToken(response.data.jwt);
       localStorage.setItem("token", response.data.jwt);
-      Cookies.set('jwt', response.data.jwt, { expires: 7, secure: false });
+      Cookies.set("jwt", response.data.jwt, { expires: 7, secure: false });
+      sessionStorage.setItem('jwt', response.data.jwt)
+      console.log("Session Storage",sessionStorage.getItem('jwt'))
+      
 
       localStorage.setItem("userId", response.data.id);
       // localStorage.setItem("username", response.data.username);
@@ -53,7 +56,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
       // setLogged(true);
       // setUserId(response.data.id);
     } catch (err) {
-      setLoading(false)
+      setLoading(false);
       setErrorMessage("Invalid credentials!");
       setShow("show");
       // handleShake();
@@ -61,31 +64,28 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
     }
   };
 
-
   useEffect(() => {
     // setLoading(true)
-    if (token.length>0) {
+    if (token.length > 0) {
       setTokenUpdated(true);
     }
   }, [token]);
 
-
   useEffect(() => {
-    setLoading(false)
-    if(tokenUpdated){
-    navigate("/home");
-  }
+    setLoading(false);
+    if (tokenUpdated) {
+      navigate("/home");
+    }
   }, [tokenUpdated]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     setToken("");
-  },[])
+  }, []);
 
-  return (
-    
-     loading ? <Loading/>:(
-     <>
+  return loading ? (
+    <Loading />
+  ) : (
+    <>
       <div
         className={`alert alert-danger d-flex align-items-center ${show}`}
         id="alert1"
@@ -93,10 +93,12 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
       >
         <div>{errorMessage}</div>
       </div>
-     
+      <div className="login-image">
+        <img src={login} alt="Login" />
+      </div>
       <div className="login">
         <h1>Login</h1>
-        
+
         <form className="login-form" action="#" onSubmit={handleSubmit}>
           <input
             className="login-input"
@@ -132,11 +134,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
           </Link>
         </div>
       </div>
-      </>
-      
-      )
-    
-    
+    </>
   );
 };
 

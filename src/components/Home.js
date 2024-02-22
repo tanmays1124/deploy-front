@@ -15,11 +15,22 @@ import axios from "axios";
 import Layout from "./Layout";
 import ip from "../ipaddr.js";
 import Cookie from "js-cookie";
+// import MenuAppBar from "./AppBar.js";
+import AppBar from './Navbar';
+
+import dd from "../images/yq.png";
 
 
 
 
-
+const scrollToSection = (sectionId) => {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
+};
 
 const Modal = (props) => {
   // const [allUpdated, setAllUpdated] = useState(false);
@@ -148,6 +159,7 @@ const Modal = (props) => {
 
   return (
     <>
+
       <div
         className="modal fade"
         id="staticBackdrop"
@@ -314,9 +326,24 @@ const Home = ({
         page={"Home"}
       /> */}
 
-      <Layout>
+      {/* <Layout> */}
+      <AppBar />
+
+      
+      <section className="h-hero" style={{ backgroundImage: `url(${dd})`, backgroundSize: 'cover' }}>
+    <div className="h-container">
+        <br></br>
+        <h1>Welcome to QuizViz</h1>
+        <p>Challenge yourself with quizzes of various difficulty levels. Test your knowledge and learn new things!</p>
+        <Link to="#quiz-section" className="home-btn" onClick={() => scrollToSection("quiz-section")}>Get Started</Link>
+    </div>
+</section>
+
+
+      {/* <MenuAppBar/> */}
         {loading ? (<Loading/>) : (
-        <div className="background">
+          
+        <section id="quiz-section" className="background">
           <div className="container" style={{ overflowX: "hidden" }}>
             <div className="row">
               <Cards
@@ -440,7 +467,7 @@ const Home = ({
               />
             </div>
           </div>
-        </div>)}
+        </section>)}
         <Modal
           questions={questions}
           setQuestions={setQuestions}
@@ -465,7 +492,7 @@ const Home = ({
           loading = {loading}
           setLoading = {setLoading}
         />
-      </Layout>
+      {/* </Layout> */}
     </>
   );
 };

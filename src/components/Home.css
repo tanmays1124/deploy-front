@@ -12,6 +12,10 @@
 
 }
 
+.background {
+    margin-top: 50px !important;
+}
+
 .card:hover{
     cursor:pointer;
     transform: scale(1.08);
@@ -26,3 +30,90 @@
     body {
         background-color: linear-gradient(#8572df40, rgba(0, 0, 0, 0)) !important;
     }
+
+
+.modal-content {
+    margin-top: 25%;
+}
+
+
+.h-hero {
+    /* margin-top: 8% !important; */
+    background-color: #2679a0;
+    color: #4dadc5;
+    padding: 150px 0;
+    text-align: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.h-hero h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.h-hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.h-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.h-hero .home-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    border: 2px solid #fff;
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.h-hero .home-btn:hover {
+    background-color: #fff;
+    color: #2679a0;
+}
+
+.h-hero::after {
+    content: '';
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* Add animation effects */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.h-hero h1,
+.h-hero p,
+.h-hero .home-btn {
+    animation: fadeInUp 2s ease-out;
+}
+
+
+.home-btn {
+    background-color: black !important;
+}

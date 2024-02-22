@@ -4,6 +4,10 @@ import "./Quiz.css";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import ip from "../ipaddr.js";
 import Cookie from 'js-cookie'
+
+const jwt = sessionStorage.getItem('jwt')
+
+
 const Quiz = (props) => {
   const [currIndex, setCurrIndex] = useState(0);
   const [currQuestion, setCurrQuestion] = useState(props.questions[0]);
@@ -73,9 +77,6 @@ const Quiz = (props) => {
     ) 
     {
       console.log(attempted);
-      // console.log(props.token)
-
-      // Ensure state is updated before navigating
 
       const userid = localStorage.getItem("userId");
 
@@ -98,7 +99,7 @@ const Quiz = (props) => {
           const response = await fetch(url, {
             method: "POST",
             headers: {
-              'Authorization': `Bearer ${props.token}`,
+              'Authorization': `Bearer ${jwt}`,
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(newQuestionHistory),
@@ -139,23 +140,23 @@ const Quiz = (props) => {
   }
 },[]);
 
-  const updateHistory = (question, options, userAnswer) => {
-    const isQuestionAlreadyAttempted = attempted.includes(question);
+  // const updateHistory = (question, options, userAnswer) => {
+  //   const isQuestionAlreadyAttempted = attempted.includes(question);
 
-    if (!isQuestionAlreadyAttempted) {
-      // console.log("Updating Quiz History:", question, options, userAnswer);
-      setAttempted((prevAttempted) => [...prevAttempted, question]);
+  //   if (!isQuestionAlreadyAttempted) {
+  //     // console.log("Updating Quiz History:", question, options, userAnswer);
+  //     setAttempted((prevAttempted) => [...prevAttempted, question]);
 
-      if (userAnswer === options[props.answers[currIndex]]) {
-        setIsCorrect((prevIsCorrect) => [...prevIsCorrect, true]);
-        props.setScore(props.score + 1);
-      } else {
-        setIsCorrect((prevIsCorrect) => [...prevIsCorrect, false]);
-      }
-    } else {
-      console.log("Question already attempted:", question);
-    }
-  };
+  //     if (userAnswer === options[props.answers[currIndex]]) {
+  //       setIsCorrect((prevIsCorrect) => [...prevIsCorrect, true]);
+  //       props.setScore(props.score + 1);
+  //     } else {
+  //       setIsCorrect((prevIsCorrect) => [...prevIsCorrect, false]);
+  //     }
+  //   } else {
+  //     console.log("Question already attempted:", question);
+  //   }
+  // };
 
   useEffect(() => {
     const timerInterval = setInterval(() => {
@@ -181,7 +182,7 @@ const Quiz = (props) => {
         :&nbsp;<strong>{timer}</strong>
       </div>
       <div className="question-container">
-        <p className="question">{currQuestion}</p>
+        <p className="question">{currIndex+1}. {currQuestion}</p>
         <div className="centered-container">
           <div className="options-container">
             <div className="option-pair">
@@ -211,7 +212,8 @@ const Quiz = (props) => {
         onClick={handleNext}
         class="next btn btn-outline-info"
       >
-        Next
+      
+        {props.questions.length==currIndex+1 ? 'Submit' : 'Next'}
       </button>
     </div>
   );

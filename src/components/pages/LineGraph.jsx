@@ -6,6 +6,8 @@ import "./LineGraph.css";
 import ip from '../../ipaddr.js'
 
 
+const jwt = sessionStorage.getItem('jwt')
+
 function LineGraph({token}) {
   const [data, setDatabaseData] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState("");
@@ -23,13 +25,14 @@ function LineGraph({token}) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("bar",jwt)
         const userId = localStorage.getItem('userId')
         const response = await fetch(
           `http://${ip}:8000/api/quiz-history/`,
           {
             method: 'GET',
             headers: {
-              'Authorization': `Bearer ${token}`,
+              'Authorization': `Bearer ${jwt}`,
   
               'Content-Type': 'application/json'
             }
@@ -173,10 +176,10 @@ function LineGraph({token}) {
           {/* <Sidenav /> */}
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <div className="App">
-              <h1 style={{ color: '#1565C0' }}> 
+              <h1 style={{ color: '#000' }}> 
                 Line Chart <i className="fas fa-chart-line"></i>
               </h1>
-              <div className="divider" style={{ borderBottom: '2px solid #1565C0', fontWeight: 'bold', marginBottom: '10px' }}></div>
+              <div className="divider" style={{ borderBottom: '2px solid #000', fontWeight: 'bold', marginBottom: '10px' }}></div>
             <label>Select Domain:</label>
             <select onChange={handleDomainChange} value={selectedDomain}>
               <option value="">Select Domain</option>

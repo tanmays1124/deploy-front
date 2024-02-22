@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./History (1).css";
+import "./History.css";
 import bg1 from "../images/history1.png";
 import Navbar from "./Navbar";
 import Layout from './Layout';
 import ip from '../ipaddr.js'
 import Cookie from "js-cookie"; 
+import AppBar from './Navbar';
+
 
 const History = ({ userId, setUserId ,open, token, setToken}) => {
   const styles = {
@@ -40,6 +42,8 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
     },
   };
 
+  const jwt = sessionStorage.getItem('jwt')
+
   const [questionHistory, setQuestionHistory] = useState([]);
   const navigate = useNavigate();
   const toJSON = (str) => {
@@ -69,7 +73,7 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
         {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${jwt}`,
 
             'Content-Type': 'application/json'
           }
@@ -125,7 +129,8 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
 
   return (
     <>
-        <Layout open={open}>
+        
+        <AppBar />
       {questionHistory.length == 0 ? (<>
         <div className="history-contained" style={styles.contained}>
           <div className="text" style={styles.text}>
@@ -151,10 +156,11 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
                   }`}
                   onClick={() => handleQuizClick(quiz)}
                 >
-                  <div className="quiz-header">
-                  <span style={{ fontFamily: 'initial', fontSize: '16px', fontWeight: 'bold' }}>{quiz.domain}</span>
-
-                  </div>
+                 <div className={`quiz-header ${quiz.difficulty_level.toLowerCase()}`}>
+  <span style={{ fontFamily: 'initial', fontSize: '16px', fontWeight: 'bold' }}>
+    {quiz.domain}
+  </span>
+</div>
                   <div className="quiz-details"style={{fontFamily:'fantasy'}}>
         
                     <p style={{fontFamily:'serif',fontSize:18}}>Score: {quiz.score}</p>
@@ -172,7 +178,7 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
                               attempt.is_correct ? " correct" : "wrong"
                             }`}
                           >
-                             <span className="symbol">{attempt.is_correct ? '✔' : '✘'}</span>
+                             {/* <span className="symbol">{attempt.is_correct ? '✔' : '✘'}</span> */}
                              <span className="question-text">{attempt.q_text}</span>
 
                           </div>
@@ -186,7 +192,7 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
           </div>
         </div>
       )}
-      </Layout>
+    
     </>
   );
 };

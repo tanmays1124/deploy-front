@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
-import History from "./components/History (1)";
+import History from "./components/History";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import Landing from "./components/Landing";
@@ -13,6 +13,7 @@ import Forgot from "./components/Forgot";
 import Profile from "./components/Profile";
 import Leaderboard from "./components/Leaderboard.js";
 import Navbar from "./components/Navbar";
+import Cookie from 'js-cookie'
 // import Bargraph from "./components/pages/BarGraph";
 // import Pie from "./components/pages/Pie";
 // import bg from "../images/bg33.jpg";
@@ -34,6 +35,7 @@ const App = () => {
   const [number, setNumber] = useState("");
   const [category, setCategory] = useState("");
   const [score, setScore] = useState(0);
+
 
   return (
     <Router>

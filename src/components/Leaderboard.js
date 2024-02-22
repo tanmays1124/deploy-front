@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Layout from './Layout';
+import Navbar from './Navbar'
 import Board from './lead/board';
 import './lead/style.css';
 import Cookie from 'js-cookie'
@@ -17,11 +18,11 @@ useEffect(()=>
 })
   return (
     <>
-    <Layout open={open}>
+    <Navbar/>
     <div className="App" id='main'>
         <Board token={token}/>
     </div>
-    </Layout>
+    
     </>
   );
 }

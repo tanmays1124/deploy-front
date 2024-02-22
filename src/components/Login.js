@@ -8,6 +8,8 @@ import "./Login.css";
 import ip from "../ipaddr.js";
 import Cookies from "js-cookie";
 import Loading from "./Loading";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [formData, setFormData] = useState({
@@ -21,6 +23,12 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [tokenUpdated, setTokenUpdated] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+  
 
   const handleInputChange = (event) => {
     setFormData({
@@ -109,15 +117,26 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
             placeholder="Username or Email"
             required="required"
           />
-          <input
+        <input
             className="login-input"
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
+            id="password"
             value={formData.password}
             onChange={handleInputChange}
             placeholder="Password"
             required="required"
           />
+          <span
+            className="toggle-password"
+            onClick={handleTogglePassword}
+          >
+            {showPassword ? (
+              <FontAwesomeIcon icon={faEyeSlash} />
+            ) : (
+              <FontAwesomeIcon icon={faEye} />
+            )}
+          </span>
           <button type="submit" className="login-btn">
             Login
           </button>

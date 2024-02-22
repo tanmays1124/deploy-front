@@ -190,6 +190,15 @@
   left: 50px;
 }
 
+.toggle-password {
+  position: absolute;
+  margin-top: 20px;
+  right: 10px; /* Adjust the right distance as needed */
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+
 
 @keyframes shake {
   0% { transform: translateX(0); }

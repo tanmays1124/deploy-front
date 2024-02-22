@@ -22,6 +22,7 @@ import Cookies from "js-cookie";
 import ip from "../ipaddr.js";
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 import { useState } from "react";
+import "./Navbar.css";
 
 
 
@@ -70,6 +71,8 @@ const MenuText = styled("span")({
 
 const Navbar = () => {
   const [selectedItem, setSelectedItem] = useState("");
+  const [glow, setGlow] = useState(false);
+
   
 
   const theme = useTheme();
@@ -119,9 +122,15 @@ const Navbar = () => {
   return (
     <StyledAppBar position="fixed">
       <Toolbar>
-        <IconButton color="inherit" aria-label="open drawer" edge="start">
-          <EmojiObjectsIcon />
-        </IconButton>
+      <IconButton 
+  color="inherit" 
+  aria-label="open drawer" 
+  edge="start"
+  className={glow ? "glow" : ""}
+  onClick={() => setGlow(!glow)}
+>
+  <EmojiObjectsIcon />
+</IconButton>
         <h1 style={{ color: "#FFFFFF", marginLeft: "10px", cursor: "pointer" }}>
           Quizviz
         </h1>
@@ -136,7 +145,7 @@ const Navbar = () => {
     }}
     // Apply a different style to the selected item
     sx={{
-      backgroundColor: selectedItem === item.text ? "#000" : "transparent",
+      backgroundColor: selectedItem === item.text ? "#4169E1" : "transparent",
       borderRadius: selectedItem === item.text ? "28px" : "0px", // Update borderRadius here
     }}
   >
@@ -150,7 +159,7 @@ const Navbar = () => {
   disablePadding
   onClick={handleLogout}
   sx={{
-    backgroundColor: selectedItem === "Logout" ? "#000" : "transparent",
+    backgroundColor: selectedItem === "Logout" ? "#4169E1" : "transparent",
     borderRadius: selectedItem === "Logout" ? "28px" : "0px",
   }}
 >

@@ -15,19 +15,15 @@ import axios from "axios";
 import Layout from "./Layout";
 import ip from "../ipaddr.js";
 import Cookie from "js-cookie";
-// import MenuAppBar from "./AppBar.js";
-import AppBar from './Navbar';
+import AppBar from "./Navbar";
 
 import dd from "../images/yq.png";
-
-
-
 
 const scrollToSection = (sectionId) => {
   const section = document.getElementById(sectionId);
   if (section) {
     section.scrollIntoView({
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   }
 };
@@ -44,40 +40,45 @@ const Modal = (props) => {
   let type_of_question = "";
   let num_questions = 0;
 
+  const [startAbled, setStartAbled] = useState("disabled");
+
+  // var startAbled = 'disabled';
+
   const handleDropdownChange = (selectName, event) => {
     setSelectedValues((prevValues) => ({
       ...prevValues,
       [selectName]: event.target.value,
     }));
+
+    if (
+      (selectedValues.select1 == 1 ||
+        selectedValues.select1 == 2 ||
+        selectedValues.select1 == 3) &&
+      (selectedValues.select3 == 1 ||
+        selectedValues.select3 == 2 ||
+        selectedValues.select3 == 3)
+    ) {
+      setStartAbled("");
+      // startAbled = '';
+    }
   };
 
-  // const handleStart = () => {
-  //   console.log("Selected value:", selectedValues.select1);
-  //   console.log("Selected value:", selectedValues.select2);
-  //   console.log("Selected value:", selectedValues.select3);
-  //   console.log("Selected value:", props.category);
-  // };
+ 
 
   const handleStart = async (event) => {
     event.preventDefault();
-    props.setLoading(true)
+    props.setLoading(true);
     console.log("Selected value:", selectedValues.select1);
     console.log("Selected value:", selectedValues.select2);
     console.log("Selected value:", selectedValues.select3);
     console.log("Selected value:", props.category);
 
-    if (selectedValues.select1 == "1") {
+    if (selectedValues.select1 == 1) {
       difficulty = "easy";
     } else if (selectedValues.select1 == 2) {
       difficulty = "medium";
     } else {
       difficulty = "difficult";
-    }
-
-    if (selectedValues.select2 == 1) {
-      type_of_question = "One Word";
-    } else {
-      type_of_question = "MCQ";
     }
 
     if (selectedValues.select3 == 1) {
@@ -91,22 +92,21 @@ const Modal = (props) => {
     props.setDifficultyLevel(difficulty);
     props.setTypeOfquestion(type_of_question);
     props.setNumber(num_questions);
-    console.log(props.token)
+    console.log(props.token);
     try {
       const user_id = localStorage.getItem("userId");
 
       const response = await axios.get(`http://${ip}:8000/api/questions/`, {
-  params: {
-    category: props.category,
-    difficulty: difficulty,
-    num_questions: num_questions,
-  },
-  headers: {
-    'Authorization': `Bearer ${props.token}`,
-    'Content-type': 'application/json'
-  }
-});
-
+        params: {
+          category: props.category,
+          difficulty: difficulty,
+          num_questions: num_questions,
+        },
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+          "Content-type": "application/json",
+        },
+      });
 
       let que = [];
       let ans = [];
@@ -148,18 +148,15 @@ const Modal = (props) => {
       props.answers.length > 0
     ) {
       props.setAllUpdated(true);
-      props.setLoading(false)
+      props.setLoading(false);
       navigate("/quiz");
 
       console.log(props.questions, props.options, props.answers);
     }
   }, [props.questions, props.options, props.answers]);
 
-
-
   return (
     <>
-
       <div
         className="modal fade"
         id="staticBackdrop"
@@ -184,32 +181,35 @@ const Modal = (props) => {
             </div>
             <div className="modal-body container">
               <div className="row">
-                <div className="col-12" style={{ marginBottom: "20px" }}>
+                <div className="col-12" style={{ marginBottom: "15px" }}>
+                Select Difficulty Level:
+                <br/>
                   <select
                     className="form-select "
                     aria-label="Default select example"
                     onChange={(e) => handleDropdownChange("select1", e)}
                     value={selectedValues.select1}
                   >
-                    <option defaultValue>Select Difficulty Level</option>
-                    <option value="1">Easy</option>
+                    {/* <option defaultValue>Select Difficulty Level</option> */}
+                    <option defaultValue value="1">Easy</option>
                     <option value="2">Medium</option>
                     <option value="3">Hard</option>
                   </select>
                 </div>
               </div>
 
-
               <div className="row">
-                <div className="col-12" style={{ marginBottom: "20px" }}>
+                <div className="col-12" style={{ marginBottom: "15px" }}>
+                Select number of Questions:
+                <br/>
                   <select
                     className="form-select col"
                     aria-label="Default select example"
                     onChange={(e) => handleDropdownChange("select3", e)}
                     value={selectedValues.select3}
                   >
-                    <option defaultValue>select Number of Questions</option>
-                    <option value="1">10</option>
+                    {/* <option defaultValue>select Number of Questions</option> */}
+                    <option defaultValue value="1">10</option>
                     <option value="2">15</option>
                     <option value="3">20</option>
                   </select>
@@ -219,7 +219,7 @@ const Modal = (props) => {
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-primary"
+                className={`btn btn-primary`}
                 data-bs-dismiss="modal"
                 onClick={handleStart}
               >
@@ -292,14 +292,13 @@ const Home = ({
   console.log(userId);
   console.log(typeof localStorage.getItem("userId"));
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!Cookie.get("jwt")) {
       navigate("/login");
     }
-    
-  },[]);
+  }, []);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -329,20 +328,31 @@ const Home = ({
       {/* <Layout> */}
       <AppBar />
 
-      
-      <section className="h-hero" style={{ backgroundImage: `url(${dd})`, backgroundSize: 'cover' }}>
-    <div className="h-container">
-        <br></br>
-        <h1>Welcome to QuizViz</h1>
-        <p>Challenge yourself with quizzes of various difficulty levels. Test your knowledge and learn new things!</p>
-        <Link to="#quiz-section" className="home-btn" onClick={() => scrollToSection("quiz-section")}>Get Started</Link>
-    </div>
-</section>
-
+      <section
+        className="h-hero"
+        style={{ backgroundImage: `url(${dd})`, backgroundSize: "cover" }}
+      >
+        <div className="h-container">
+          <br></br>
+          <h1>Welcome to QuizViz</h1>
+          <p>
+            Challenge yourself with quizzes of various difficulty levels. Test
+            your knowledge and learn new things!
+          </p>
+          <Link
+            to="#quiz-section"
+            className="home-btn"
+            onClick={() => scrollToSection("quiz-section")}
+          >
+            Get Started
+          </Link>
+        </div>
+      </section>
 
       {/* <MenuAppBar/> */}
-        {loading ? (<Loading/>) : (
-          
+      {loading ? (
+        <Loading />
+      ) : (
         <section id="quiz-section" className="background">
           <div className="container" style={{ overflowX: "hidden" }}>
             <div className="row">
@@ -467,31 +477,32 @@ const Home = ({
               />
             </div>
           </div>
-        </section>)}
-        <Modal
-          questions={questions}
-          setQuestions={setQuestions}
-          answers={answers}
-          setAnswers={setAnswers}
-          options={options}
-          setOptions={setOptions}
-          category={category}
-          setCategory={setCategory}
-          difficultyLevel={difficultyLevel}
-          setDifficultyLevel={setDifficultyLevel}
-          typeOfQuestion={typeOfQuestion}
-          setTypeOfquestion={setTypeOfquestion}
-          number={number}
-          setNumber={setNumber}
-          userId={userId}
-          setUserId={setUserId}
-          allUpdated={allUpdated}
-          setAllUpdated={setAllUpdated}
-          token = {token}
-          setToken = {setToken}
-          loading = {loading}
-          setLoading = {setLoading}
-        />
+        </section>
+      )}
+      <Modal
+        questions={questions}
+        setQuestions={setQuestions}
+        answers={answers}
+        setAnswers={setAnswers}
+        options={options}
+        setOptions={setOptions}
+        category={category}
+        setCategory={setCategory}
+        difficultyLevel={difficultyLevel}
+        setDifficultyLevel={setDifficultyLevel}
+        typeOfQuestion={typeOfQuestion}
+        setTypeOfquestion={setTypeOfquestion}
+        number={number}
+        setNumber={setNumber}
+        userId={userId}
+        setUserId={setUserId}
+        allUpdated={allUpdated}
+        setAllUpdated={setAllUpdated}
+        token={token}
+        setToken={setToken}
+        loading={loading}
+        setLoading={setLoading}
+      />
       {/* </Layout> */}
     </>
   );

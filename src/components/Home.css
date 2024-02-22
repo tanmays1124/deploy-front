@@ -39,6 +39,7 @@
 
 .h-hero {
     /* margin-top: 8% !important; */
+    display: flex;
     background-color: #2679a0;
     color: #4dadc5;
     padding: 150px 0;
@@ -47,6 +48,8 @@
     position: relative;
     overflow: hidden;
     width: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
 .h-hero h1 {
@@ -63,8 +66,6 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-    justify-content: center;
-    align-items: center;
 }
 
 .h-hero .home-btn {
@@ -82,6 +83,7 @@
 .h-hero .home-btn:hover {
     background-color: #fff;
     color: #2679a0;
+    border-color: #2679a0;
 }
 
 .h-hero::after {

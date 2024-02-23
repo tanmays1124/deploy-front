@@ -506,8 +506,8 @@ function Register() {
           <input
             className="signup-input"
             type={showPasswordd ? "text" : "password"}
-            name="confirm password"
-            id="confirm password"
+            name="confirm_password"
+            id="confirm_password"
             value={formData.confirmpassword}
             onChange={handleInputChange}
             placeholder="Confirm Password"

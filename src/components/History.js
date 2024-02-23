@@ -43,6 +43,7 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
   };
 
   const jwt = sessionStorage.getItem('jwt')
+  console.log(jwt)
 
   const [questionHistory, setQuestionHistory] = useState([]);
   const navigate = useNavigate();

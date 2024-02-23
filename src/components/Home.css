@@ -22,7 +22,15 @@
         background-color: rgb(240, 240, 239) !important;
 
     }
+    
 
     body {
         background-color: linear-gradient(#8572df40, rgba(0, 0, 0, 0)) !important;
     }
+
+
+    .modal-content {
+        margin-top: 25%;
+    }
+    
+    

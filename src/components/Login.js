@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import log from "../images/Log.png";
+import login from "../images/login.jpg";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "./Login.css";
@@ -93,7 +93,9 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
       >
         <div>{errorMessage}</div>
       </div>
-     
+      <div className="login-image">
+  <img src={login} alt="Login" />
+</div>
       <div className="login">
         <h1>Login</h1>
         

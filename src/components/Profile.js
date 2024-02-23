@@ -317,6 +317,7 @@ const Profile = ({token}) => {
           </div>
         </div>)}
       </Layout>
+      
     </>
   );
 };

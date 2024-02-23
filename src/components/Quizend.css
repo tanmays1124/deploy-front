@@ -1,32 +1,31 @@
 .score-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Set height to 100% of the viewport height */
-    font-size: 20px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Set height to 100% of the viewport height */
+  font-size: 20px;
+}
+
+.score-card {
+  text-align: center;
   
-  .score-card {
-    text-align: center;
-    
-    
-  }
-
-  .score{
-    margin:50px;
-  }
-
-  /* Optional: Style the button */
-  .go-home {
-    padding: 5px;
-    
-    border-radius: 10px;
-    border: 1px solid rgb(244, 204, 143);
-    background-color: rgb(244, 176, 49);
-
-  }
-
-  .go-home:hover{
-    background-color: rgba(254, 165, 0, 0.997);
-  }
   
+}
+
+.score{
+  margin:50px;
+}
+
+/* Optional: Style the button */
+.go-home {
+  padding: 5px;
+  
+  border-radius: 10px;
+  border: 1px solid rgb(244, 204, 143);
+  background-color: rgb(244, 176, 49);
+
+}
+
+.go-home:hover{
+  background-color: rgba(254, 165, 0, 0.997);
+}

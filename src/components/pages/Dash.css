@@ -67,11 +67,11 @@
 }
 
 .danger-card {
-  background-color: #ff0000 !important; /* Adjust color as needed */
+  background-color: #e04949 !important; /* Adjust color as needed */
 }
 
 .success-card {
-  background-color: #00fe0d !important; /* Adjust color as needed */
+  background-color: #7bda7f !important; /* Adjust color as needed */
 }
 
 .secondary-primary-card {

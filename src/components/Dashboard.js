@@ -11,6 +11,7 @@ import Layout from './Layout';
 import ip from '../ipaddr.js'
 import Cookie from 'js-cookie'
 import Loading from './Loading'
+import MenuAppBar from './AppBar.js';
 
 function Dashboard({ open, token, setToken }) {
   const [quizData, setQuizData] = useState([]);
@@ -155,6 +156,7 @@ function Dashboard({ open, token, setToken }) {
 
 
      <Layout open={open}>   
+     <MenuAppBar/>
      <div className='bo'>
           <Box sx={{ display: 'flex', flexDirection: 'column', maxHeight: '100%' }}>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

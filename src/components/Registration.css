@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-.signup-btn {
+/* .signup-btn {
   margin-bottom: 20px;
   display: inline-block;
   display: inline;
@@ -55,28 +55,62 @@
   border-radius: 5px;
   width: 100%;
   display: block;
+} */
+.signup-btn {
+  margin-bottom: 20px;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  margin-left: 35%;
+  text-decoration: none;
+  background-color: #4a77d4;
+  border: 2px solid #3762bc;
+  background-image: -moz-linear-gradient(to top, #6eb6de, #4a77d4);
+  background-image: -ms-linear-gradient(to top, #6eb6de, #4a77d4);
+
+  background-image: -webkit-linear-gradient(top, #6eb6de, #4a77d4);
+  background-image: -o-linear-gradient(top, #6eb6de, #4a77d4);
+  background-image: linear-gradient(to top, #6eb6de, #4a77d4);
+  background-repeat: repeat-x;
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr=#6eb6de, endColorstr=#4a77d4, GradientType=0);
+  border-radius: 25px; /* Adjust this value to control the oval shape */
+  cursor: pointer;
+  /* transition: background-color 0.3s ease; */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Add transform to the transition */
 }
 
-.btn:hover {
-  background-color: linear-gradient(to top, #c1c1c1, #4a77d4);
+.signup-btn:hover {
+  background-color: #6e8cde;
+  transform: scale(0.95);
 }
+
+.signup-btn:focus {
+  outline: none;
+}
+/* .btn:hover {
+  background-color: linear-gradient(to top, #c1c1c1, #4aadd4);
+} */
 
 /* html { width: 100%; height:100%; overflow:hidden; } */
 
 .signup {
   position: absolute;
   top: 30%;
-  left: 50%;
+  left: 70%;
   margin: -150px 0 0 -150px;
   width: 300px;
   height: 300px;
 }
 .signup h1 {
-  color: #ffffff;
+  color: #3762bc;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   letter-spacing: 1px;
   text-align: center;
 }
+
 
 .signup-input {
   width: 100%;
@@ -110,5 +144,11 @@
 .login-link:hover {
   color: #0400ff;
 }
-
-
+.signup-image {
+  width: 200%;
+  height: 200%;
+  object-fit: cover;
+  position: absolute;
+  top: 20%;
+  left: 10%;
+}

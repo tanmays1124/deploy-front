@@ -315,6 +315,7 @@ import axios from "axios";
 import "./board.css";
 import pfimg from "./profile.jpg";
 import ip from "../../ipaddr.js";
+import DensityLargeIcon from '@mui/icons-material/DensityLarge';
 
 export default function Board() {
   const [userId, setUserid] = useState("");
@@ -323,7 +324,7 @@ export default function Board() {
   const [domain, setDomain] = useState("All");
   const [showDomainSelection, setShowDomainSelection] = useState(false);
   const [uniqueDomains, setUniqueDomains] = useState([]);
-  const [userPhoto, setUserPhoto] = useState("default-photo-url"); // Set a default photo URL
+  const [userPhoto, setUserPhoto] = useState("default-photo-url");
   const [isLoadingUserData, setIsLoadingUserData] = useState(false);
   const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState(false);
   const [error, setError] = useState(null);
@@ -331,6 +332,9 @@ export default function Board() {
   const [userNames, setUserNames] = useState([]);
   const [userPhotos, setUserPhotos] = useState([]);
   const [uniqueUserIds, setUniqueUserIds] = useState([]);
+  
+  const [isDifficultySelected, setIsDifficultySelected] = useState(false); // Track difficulty selection
+
   const [userDetails, setUserDetails] = useState([]);
 
   let user_names = [];
@@ -338,30 +342,8 @@ export default function Board() {
   useEffect(() => {
     const fetchedUserId = localStorage.getItem("userId");
     setUserid(fetchedUserId);
-    // fetchUserData(fetchedUserId);
     fetchLeaderboardData();
   }, [difficulty, domain]);
-
-  // const fetchUserData = async (userId) => {
-  //   try {
-  //     setIsLoadingUserData(true);
-  //     const response = await axios.get(`http://${ip}:8000/api/userprofile/${userId}`);
-  //     const userData = response.data;
-  //     console.log('Fetched user data:', userData);
-
-  //     if (userData.photo !== null) {
-  //       const completePhotoUrl = `http://${ip}:8000${userData.photo}`;
-  //       setUserPhoto(completePhotoUrl);
-  //     } else {
-  //       setUserPhoto('default-photo-url');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching user data:', error);
-  //     setError('Error fetching user data');
-  //   } finally {
-  //     setIsLoadingUserData(false);
-  //   }
-  // };
 
   const fetchLeaderboardData = async () => {
     setIsLoadingLeaderboard(true);
@@ -375,11 +357,9 @@ export default function Board() {
         `http://${ip}:8000/api/questionhistoryget/?${difficultyParam}${domainParam}`
       );
 
-      console.log("Fetched Leaderboard Data:", response.data);
-
       const fetchedLeaderboard = response.data.map((item) => ({
         userId: item.user,
-        username: "", // Initialize username as an empty string
+        username: "",
         score: JSON.parse(item.score),
         domain: item.domain,
         difficulty_level: item.difficulty_level,
@@ -398,7 +378,6 @@ export default function Board() {
             const userProfileResponse = await axios.get(
               `http://${ip}:8000/api/userprofile/?user_id=${uniqueUserId}`
             );
-            console.log("User Profile Response:", userProfileResponse.data);
             return userProfileResponse.data;
           } catch (error) {
             console.error("Error fetching username and photo:", error);
@@ -408,9 +387,7 @@ export default function Board() {
       );
 
       setUserDetails(userDetailsArray);
-      console.log("state", userDetails);
 
-      // Update the leaderboard state with usernames and photos
       setLeaderboard((prevLeaderboard) =>
         prevLeaderboard.map((user) => {
           const userDetail = usernameMap.get(user.userId) || {};
@@ -421,8 +398,6 @@ export default function Board() {
           };
         })
       );
-
-      console.log("done", leaderboard);
 
       const finalLeaderboard = filterAndRankLeaderboard(fetchedLeaderboard);
       setLeaderboard(finalLeaderboard);
@@ -450,12 +425,8 @@ export default function Board() {
       const userKey = `${current.userId}_${current.difficulty_level}_${current.domain}`;
       const maxScore = current.score || 0;
 
-      // Check if the score filter condition is met
       let isScoreFilterPassed = false;
       switch (scoreFilter) {
-        // case 'All':
-        //   isScoreFilterPassed = true;
-        //   break;
         case "LessThan3":
           isScoreFilterPassed = maxScore < 3;
           break;
@@ -469,7 +440,6 @@ export default function Board() {
           isScoreFilterPassed = true;
       }
 
-      // Check difficulty and domain conditions along with the score filter
       if (
         (current.difficulty_level === difficulty || difficulty === "All") &&
         (current.domain === domain || domain === "All") &&
@@ -508,59 +478,93 @@ export default function Board() {
   const handleDifficultyChange = (newDifficulty) => {
     setDifficulty(newDifficulty);
     setShowDomainSelection(newDifficulty !== "All");
+    setIsDifficultySelected(newDifficulty !== "All"); // Set the state based on difficulty selection
   };
 
   const handleDomainChange = (newDomain) => {
     setDomain(newDomain);
   };
 
-  console.log("Leaderboard State:", leaderboard);
-
-  // Pagination logic
-  const itemsPerPage = 5;
+  const itemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = leaderboard.slice(indexOfFirstItem, indexOfLastItem);
-  // const a = currentItems.map((user, index) => {
-  //     fetchUserData(user.userID)
-  // })
 
   const totalPages = Math.ceil(leaderboard.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  const renderUserDetails = (user, index) => {
+    const userIndex = uniqueUserIds.indexOf(user.userId);
+    const userDetailsForUser = userDetails[userIndex];
+  
+    return (
+      <div key={index} className="user-profile">
+        <div className="rank-section">
+        <span className="rank"># {user.rank}</span>
+{index < 3 && currentPage === 1 && (
+  <span className="medal-icon">
+    {index === 0 ? "🥇" : index === 1 ? "🥈" : "🥉"}
+  </span>
+)}
+{index >= 3 && <span className="medal-icon">'🥇'</span>}
+
+        </div>
+  
+        <div className="user-details">
+          <img
+            className="profile-image"
+            src={
+              userDetailsForUser[0].photo
+                ? userDetailsForUser[0].photo
+                : pfimg
+            }
+            alt={`User ${index + 1}`}
+            width={index < 3 ? "80px" : "50px"} // Larger image for top 3
+            height={index < 3 ? "80px" : "50px"}
+          />
+  
+          <span className="username">
+            &nbsp;&nbsp;
+            <strong>{userDetailsForUser[0].username}</strong>
+          </span>
+        </div>
+        <div className="score-section">
+          <p className="score">
+            Score: <strong>{user.maxScore}</strong>
+          </p>
+        </div>
+      </div>
+    );
+  };
+  
 
   return (
-    <div className="container">
-      <div className="sidebar">
+    <div className={`board-container ${isDifficultySelected ? "show-domain-selection" : ""}`}>
+      <div className="board-card">
         <h2>LEADER BOARD</h2>
-        <br />
         <hr />
-        <br />
 
-        <>
-          <h2>Select Difficulty:</h2>
-          <div className="difficulty-dropdown">
+        <div className="dropdowns">
+          <div className="dropdown">
+            <label>Select Difficulty:</label>
             <select
               value={difficulty}
               onChange={(e) => handleDifficultyChange(e.target.value)}
             >
               <option value="All">Select Difficulty</option>
-
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="difficult">Difficult</option>
             </select>
           </div>
-        </>
 
-        {showDomainSelection && (
-          <>
-            <h2>Domains:</h2>
-            <div className="domain-dropdown">
+          {showDomainSelection && (
+            <div className="dropdown">
+              <label>Domains: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
               <select
                 value={domain}
                 onChange={(e) => handleDomainChange(e.target.value)}
@@ -572,8 +576,8 @@ export default function Board() {
                 ))}
               </select>
             </div>
-          </>
-        )}
+          )}
+        </div>
       </div>
 
       {(isLoadingUserData || isLoadingLeaderboard) && <p>Loading...</p>}
@@ -581,7 +585,7 @@ export default function Board() {
       {error && <p>Error: {error}</p>}
       {leaderboard.length > 0 && (
         <div className="board" style={{ textAlign: "center" }}>
-          <h1 className="leaderboard">LEADER BOARD</h1>
+          {/* <h1 className="leaderboard">LEADER BOARD</h1> */}
           {showDomainSelection && difficulty !== "All" && (
             <h2 className="header-text">{`${domain}-${difficulty}`}</h2>
           )}
@@ -589,7 +593,6 @@ export default function Board() {
           {currentItems.map((user, index) => {
             const userIndex = uniqueUserIds.indexOf(user.userId);
             const userDetailsForUser = userDetails[userIndex];
-            console.log("aaa", userDetailsForUser);
 
             return (
               <div key={index} className="user-profile">
@@ -601,7 +604,7 @@ export default function Board() {
                     </span>
                   )}
                 </div>
-                
+
                 <div className="user-details">
                   <img
                     className="profile-image"
@@ -631,7 +634,6 @@ export default function Board() {
         </div>
       )}
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="pagination">
           <button
@@ -663,7 +665,7 @@ export default function Board() {
         !isLoadingLeaderboard &&
         !error && (
           <div className="board" style={{ textAlign: "mid-center" }}>
-            <h1 className="leaderboard">LEADERBOARD</h1>
+            {/* <h1 className="leaderboard">LEADERBOARD</h1> */}
             <p>Select the difficulty level and domain.</p>
           </div>
         )}

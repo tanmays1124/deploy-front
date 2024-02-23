@@ -2,7 +2,7 @@ import { Link,useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
 // import './Landing.css';
-import bg from "../images/bg.jpg";
+import bg from "../images/landing.jpg";
 import ip from '../ipaddr.js'
 
 const Landing = () => {
@@ -48,6 +48,7 @@ const Landing = () => {
       backgroundImage: "url(" + bg + ")",
       backgroundSize: "cover",
       overflowY: "hidden",
+      opacity: "0.8",
     },
     "center-text": {
       textAlign: "center",
@@ -57,11 +58,11 @@ const Landing = () => {
       marginTop: "150px",
       fontSize: "larger",
       transition: "background-color 0.3s, color 0.3s",
-      color: "#1b1811",
+      color: "#FFFFFF",
     },
 
     header: {
-      backgroundColor: "white",
+      backgroundColor: "#ffffff00",
       padding: "15px",
       color: "black",
       display: "flex",
@@ -75,18 +76,20 @@ const Landing = () => {
       fontWeight: "bold",
       marginRight: "auto",
       textDecoration: "none",
-      color: "rgb(0, 0, 0)",
+      // color: "rgb(0, 0, 0)",
+      color: "white",
     },
 
     "nav-buttons": {
       display: "flex",
       alignItems: "center",
+      backgroundColor:"#ffffff00"
     },
 
     login: {
-      backgroundColor: isHoveredlog ? "#e0e0e0" : "white",
+      backgroundColor: isHoveredlog ? "#e0e0e0" : "#ffffff00",
       textDecoration: "none",
-      color: isHoveredlog ? "#333" : "black",
+      color: isHoveredlog ? "#333" : "white",
       padding: "10px",
       marginLeft: "15px",
       border: isHoveredlog ? "3px solid black" : "3px solid black",
@@ -95,9 +98,9 @@ const Landing = () => {
     },
 
     signup: {
-      backgroundColor: isHoveredsign ? "#e0e0e0" : "white",
+      backgroundColor: isHoveredsign ? "#e0e0e0" : "#ffffff00",
       textDecoration: "none",
-      color: isHoveredsign ? "#333" : "black",
+      color: isHoveredsign ? "#333" : "white",
       padding: "10px",
       marginLeft: "15px",
       border: isHoveredsign ? "3px solid black" : "3px solid black",

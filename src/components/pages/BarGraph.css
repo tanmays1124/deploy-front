@@ -1,18 +1,18 @@
 .select-container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  label {
-    margin-bottom: 5px;
-  }
-  
-  select {
-    padding: 8px;
-    margin-bottom: 15px;
-  }
+  display: flex;
+  flex-direction: column;
+}
 
-  .dropdown-container{
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 18;
-  }
+label {
+  margin-bottom: 5px;
+}
+
+select {
+  padding: 8px;
+  margin-bottom: 15px;
+}
+
+.dropdown-container{
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 18;
+}

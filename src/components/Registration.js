@@ -291,7 +291,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./Registration.css";
-import log from "../images/Log.png";
+import signup from "../images/signup.png";
 import ip from '../ipaddr.js'
 
 // import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -348,6 +348,7 @@ function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const psswd = document.getElementById("password");
+    const confirmPsswd = document.getElementById("confirm password");
     const email = document.getElementById("email");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -366,6 +367,13 @@ function Register() {
       setShow('show')
       handleShake()
   
+    }
+    if (psswd.value !== confirmPsswd.value) {
+      setMssg("Password and Confirm Password must match");
+      confirmPsswd.style.border = "2px solid red";
+      setShow('show');
+      handleShake();
+      return;
     }
     if(emailRegex.test(email.value) && validatePassword(psswd.value))
     {
@@ -467,7 +475,9 @@ function Register() {
   </div>
 </div>
 
-
+<div className="signup-image">
+  <img src={signup} alt="signup" />
+</div>
 
       <div className="signup">
         <h1>Sign Up</h1>
@@ -521,6 +531,16 @@ function Register() {
             value={formData.password}
             onChange={handleInputChange}
             placeholder="Password"
+            required="required"
+          />
+          <input
+            className="signup-input"
+            type="password"
+            name="confirm password"
+            id="confirm password"
+            value={formData.confirmpassword}
+            onChange={handleInputChange}
+            placeholder="Confirm Password"
             required="required"
           />
           <button type="submit" class="signup-btn">

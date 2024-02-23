@@ -1,16 +1,10 @@
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import { useNavigate } from "react-router-dom";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -19,70 +13,61 @@ import HomeIcon from "@mui/icons-material/Home";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HistoryIcon from "@mui/icons-material/History";
 import PersonIcon from "@mui/icons-material/Person";
-import InfoIcon from "@mui/icons-material/Info";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
-import ip from "../ipaddr.js";
+import MenuIcon from "@mui/icons-material/Menu";
+import IconButton from "@mui/material/IconButton";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import ip from "../ipaddr.js";
+import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 
-const drawerWidth = 240;
 
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  backgroundColor: "#023252", // Specify your desired background color here
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: "hidden",
-});
 
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create("width", {
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-  opacity: 1,
-  backgroundColor: "#023252", // Set the background color when the drawer is closed
-});
+  ...(open && {
+    marginLeft: 240,
+    width: `calc(100% - 240px)`,
+  }),
+}));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  justifyContent: "center", // Center content horizontally
+  justifyContent: "center",
   padding: theme.spacing(0, 1),
   opacity: 1.0,
-  width: "100%", // Set width to 100%
-  color: "#FFFFFF", // Set the text color to white
-  // necessary for content to be below app bar
+  width: "100%",
+  color: "#FFFFFF",
   ...theme.mixins.toolbar,
 }));
 
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
-  ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  backgroundColor: "#3f51b5",
+  transition: theme.transitions.create(["width", "margin"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
   }),
 }));
 
-const Navbar = (props) => {
+const MenuText = styled("span")({
+  color: "#fff",
+  fontSize: "15px", // You can adjust the font size as needed
+  fontWeight: "bold",
+});
+
+
+
+const Navbar = () => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -110,207 +95,53 @@ const Navbar = (props) => {
       });
   };
 
+  const menuItems = [
+    {icon: <HomeIcon style={{ color: "#fff" }} />, text: "Home", path: "/home" },
+    { icon: <DashboardIcon style={{ color: "#fff" }} />, text: "Dashboard", path: "/Dashboard" },
+    { icon: <HistoryIcon style={{ color: "#fff" }} />, text: "History", path: "/History" },
+    { icon: <LeaderboardIcon style={{ color: "#fff" }} />, text: "Leaderboard", path: "/leaderboard" },
+    { icon: <PersonIcon style={{ color: "#fff" }} />, text: "Profile", path: "/Profile" },
+  ];
+
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={() => setOpen(!open)}>
-            {open ? (
-              <>
-                <h1 style={{ color: "#FFFFFF" }}>Quizviz</h1>
-                {theme.direction === "rtl" ? (
-                  <ChevronRightIcon />
-                ) : (
-                  <ChevronLeftIcon />
-                )}
-              </>
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={() => {
-              navigate("/home");
-            }}
-          >
-            <ListItemButton
+    <StyledAppBar position="fixed">
+      <Toolbar>
+        <IconButton color="inherit" aria-label="open drawer" edge="start">
+          <EmojiObjectsIcon />
+        </IconButton>
+        <h1 style={{ color: "#FFFFFF", marginLeft: "10px", cursor: "pointer" }}>
+          Quizviz
+        </h1>
+        <List sx={{ display: "flex", gap: 3, marginLeft: "auto" }}>
+          {menuItems.map((item) => (
+            <ListItem
+              key={item.text}
+              disablePadding
+              onClick={() => navigate(item.path)}
               sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-                color: "#FFFFFF",
+                "&:hover": {
+                  backgroundColor: "#000",
+                  borderRadius: "28px" // Change to yellow on hover
+                },
               }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                  color: "#FFFFFF",
-                }}
-              >
-                <HomeIcon />
+              <ListItemButton>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={<MenuText>{item.text}</MenuText>} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+          <ListItem disablePadding onClick={handleLogout} sx={{ "&:hover": { backgroundColor: "#000" , borderRadius: "28px"} }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <ExitToAppIcon style={{ color: "#fff" }} />
               </ListItemIcon>
-              <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={() => navigate("/Dashboard")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-                color: "#FFFFFF",
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                  color: "#FFFFFF",
-                }}
-              >
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Dashboard"
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={() => navigate("/History")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-                color: "#FFFFFF",
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                  color: "#FFFFFF",
-                }}
-              >
-                <HistoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="History" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={() => navigate("/leaderboard")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-                color: "#FFFFFF",
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                  color: "#FFFFFF",
-                }}
-              >
-                <LeaderboardIcon /> {/* Use the Leaderboard icon here */}
-              </ListItemIcon>
-              <ListItemText
-                primary="Leaderboard"
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={() => navigate("/Profile")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-                color: "#FFFFFF",
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                  color: "#FFFFFF",
-                }}
-              >
-                <PersonIcon />
-              </ListItemIcon>
-              <ListItemText primary="Profile" sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary={<MenuText>Logout</MenuText>} />
             </ListItemButton>
           </ListItem>
         </List>
-        <Divider />
-        <List>
-          <ListItem
-            disablePadding
-            sx={{ display: "block" }}
-            onClick={handleLogout}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-                color: "#FFFFFF",
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                  color: "#FFFFFF",
-                }}
-              >
-                <ExitToAppIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Logout"
-                sx={{
-                  opacity: open ? 1 : 0,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "left",
-                  color: "#FFFFFF",
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Drawer>
-    </Box>
+      </Toolbar>
+    </StyledAppBar>
   );
 };
 

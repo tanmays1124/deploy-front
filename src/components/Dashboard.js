@@ -57,7 +57,6 @@ function Dashboard({ open, token, setToken }) {
   
 
 
-  // Log quizData to check its structure and content
   useEffect(() => {
     console.log('Quiz Data:', quizData);
     
@@ -66,18 +65,7 @@ function Dashboard({ open, token, setToken }) {
   const incorrectQuestions = quizData.reduce((total, item) => {
     try {
       const attemptedQuestions = item.attempted_questions 
-      //   ? item.attempted_questions
-      //   .replace(/OrderedDict\(\[\(/g, "{")
-      // .replace(/\]\)/g, "}")
-      // .replace(/\)/g, "")
-      // .replace(/\(/g, "")
-      // .replace(/t\'\,/g, "t':")
-      // .replace(/'/g, '"')
-      // .replace(/True/g, "true")
-      // .replace(/False/g, "false")
-      //   : item.attempted_questions;
-  
-      // const cleanedQuestions = JSON.parse(attemptedQuestions);
+
   
       const incorrectCount = Array.isArray(attemptedQuestions)
         ? attemptedQuestions.reduce((acc, question) => acc + (question && question.is_correct === false ? 1 : 0), 0)

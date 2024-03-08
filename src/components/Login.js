@@ -20,6 +20,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [show, setShow] = useState("fade");
   const [tokenUpdated, setTokenUpdated] = useState(false);
   const [loading, setLoading] = useState(false)
+  const [isSuperUser, setIsSuperUser] = useState(false)
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
@@ -44,6 +45,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
       );
       console.log(response.data);
       setToken(response.data.jwt);
+      setIsSuperUser(response.data.is_superuser)
       localStorage.setItem("token", response.data.jwt);
       Cookies.set('jwt', response.data.jwt, { expires: 7, secure: false });
 
@@ -67,14 +69,21 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
     if (token.length>0) {
       setTokenUpdated(true);
     }
-  }, [token]);
+  }, [token,isSuperUser]);
 
 
   useEffect(() => {
     setLoading(false)
-    if(tokenUpdated){
-    navigate("/home");
-  }
+    if(tokenUpdated)
+    {
+      if(isSuperUser){
+        navigate("/admin")
+      }
+      else{
+        navigate("/home");
+      }
+    
+    }
   }, [tokenUpdated]);
 
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./History (1).css";
+import "./History.css";
 import bg1 from "../images/history1.png";
 import Navbar from "./Navbar";
 import Layout from './Layout';
@@ -42,6 +42,9 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
     },
   };
 
+  const jwt = sessionStorage.getItem('jwt')
+  console.log(jwt)
+
   const [questionHistory, setQuestionHistory] = useState([]);
   const navigate = useNavigate();
   const toJSON = (str) => {
@@ -71,7 +74,7 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
         {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${jwt}`,
 
             'Content-Type': 'application/json'
           }
@@ -127,7 +130,7 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
 
   return (
     <>
-        <Layout open={open}>
+        
         <AppBar />
       {questionHistory.length == 0 ? (<>
         <div className="history-contained" style={styles.contained}>
@@ -190,7 +193,7 @@ const History = ({ userId, setUserId ,open, token, setToken}) => {
           </div>
         </div>
       )}
-      </Layout>
+    
     </>
   );
 };

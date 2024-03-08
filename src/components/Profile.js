@@ -5,10 +5,12 @@ import axios from "axios";
 import Layout from "./Layout";
 import pfimg from "../images/profile.jpg";
 import ip from "../ipaddr.js";
-import Cookie from 'js-cookie'
-import Loading from './Loading'
+import Cookie from "js-cookie";
+import Loading from "./Loading";
+import Navbar from './Navbar';
 
-const Profile = ({token}) => {
+
+const Profile = ({ token }) => {
   const [disable, setDisable] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -20,9 +22,10 @@ const Profile = ({token}) => {
   const [disableUpdate, setDisableUpdate] = useState(false);
   const [disableSave, setDisableSave] = useState(true);
   const [disableChooseFile, setDisableChooseFile] = useState(true);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
+  const jwt = sessionStorage.getItem('jwt')
 
   const handleUpdate = () => {
     setDisableUpdate(true);
@@ -68,14 +71,13 @@ const Profile = ({token}) => {
         `http://${ip}:8000/api/update/`,
         formData,
         {
-            headers: {
-                'Content-Type': 'application/json', // Specify the content type if needed
-                'Authorization': `Bearer ${token}`, // Include the JWT token if required
-                // Add other headers as needed
-            }
+          headers: {
+            "Content-Type": "application/json", // Specify the content type if needed
+            Authorization: `Bearer ${jwt}`, // Include the JWT token if required
+            // Add other headers as needed
+          },
         }
-    );
-    
+      );
 
       console.log(response.data);
       setDisable(true);
@@ -106,13 +108,13 @@ const Profile = ({token}) => {
     formData.append("photo", photo);
 
     try {
-      const userId = localStorage.getItem('userId')
+      const userId = localStorage.getItem("userId");
       const response = await axios.put(
         `http://${ip}:8000/api/update/`,
         formData,
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${jwt}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -131,16 +133,13 @@ const Profile = ({token}) => {
     if (confirm("Are You Sure You want to delete Account?") === true) {
       try {
         // Make a DELETE request to the deleteUserProfile API endpoint
-        const response = await axios.delete(
-          `http://${ip}:8000/api/user/`,
-          {
-              headers: {
-                  'Content-Type': 'application/json', // Specify the content type if needed
-                  'Authorization': `Bearer ${token}`, // Include the JWT token if required
-                  // Add other headers as needed
-              }
-          }
-      );
+        const response = await axios.delete(`http://${ip}:8000/api/user/`, {
+          headers: {
+            "Content-Type": "application/json", // Specify the content type if needed
+            Authorization: `Bearer ${jwt}`, // Include the JWT token if required
+            // Add other headers as needed
+          },
+        });
 
         // Check if the request was successful
         if (response.status === 200) {
@@ -149,6 +148,9 @@ const Profile = ({token}) => {
           localStorage.removeItem("userId");
           localStorage.removeItem("username");
           localStorage.removeItem("csrf_token");
+          sessionStorage.removeItem('jwt')
+
+          Cookie.remove("jwt");
           navigate("/login");
           // Perform any additional actions you want after successful deletion
         } else {
@@ -162,17 +164,14 @@ const Profile = ({token}) => {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch(
-        `http://${ip}:8000/api/user/`,
-        {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
+      const response = await fetch(`http://${ip}:8000/api/user/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${jwt}`,
 
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+          "Content-Type": "application/json",
+        },
+      });
 
       const data = await response.json();
       console.log("Fetched user data:", data);
@@ -197,120 +196,128 @@ const Profile = ({token}) => {
     if (!Cookie.get("jwt")) {
       navigate("/login");
     }
-    setLoading(true)
+    console.log(jwt)
+    setLoading(true);
     fetchUserData();
   }, []);
 
-
-  useEffect(()=>{
-    if(firstName.length > 0 && lastName.length > 0 && username.length > 0 && email.length > 0)
-    setLoading(false)
-  },[firstName,lastName,username,email])
+  useEffect(() => {
+    if (
+      firstName.length > 0 &&
+      lastName.length > 0 &&
+      username.length > 0 &&
+      email.length > 0
+    )
+      setLoading(false);
+  }, [firstName, lastName, username, email]);
 
   return (
     <>
-      <Layout>
-        {loading ? <Loading/>:(
-        <div className="container shadow rounded mt-5 mb-5 profile-container">
-          <div className="col-md-12">
-            <div className="d-flex p-3 top-container">
-              <div className="d-flex align-items-center row">
-                <div className="profile-image-container">
-                  <img
-                    className="rounded-circle"
-                    width="160px"
-                    height="160px"
-                    src={photoSrc || pfimg}
-                    alt="Profile"
-                  />
-                </div>
-                <div className="profile-info-container ">
-                  <strong className="text-black-50">{username}</strong>
-                </div>
-
-                {disableUpdate ? (
-                  <div className="upload-photo">
-                    <label className="upload">
-                      <input
-                        className="uploaded"
-                        type="file"
-                        accept="image/*"
-                        onChange={handlePhotoChange}
-                        disabled={disableChooseFile}
-                        id="profilePictureInput"
-                        style={{ disable: "hidden" }}
-                        name='photo'
-                      />
-                    </label>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-            <hr className="divider" />
-
+      <Navbar/>
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className="container shadow rounded mt-5 mb-5 profile-container">
             <div className="col-md-12">
-              <div className="p-3 py-5 bottom-container">
-                <div className="row mt-2">
-                  <div className="col-md-6">
-                    <label className="labels">First Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="first name"
-                      defaultValue={firstName}
-                      disabled={disable}
-                      name="first_name"
+              <div className="d-flex p-3 top-container">
+                <div className="d-flex align-items-center row">
+                  <div className="profile-image-container">
+                    <img
+                      className="rounded-circle"
+                      width="160px"
+                      height="160px"
+                      src={photoSrc || pfimg}
+                      alt="Profile"
                     />
                   </div>
-                  <div className="col-md-6">
-                    <label className="labels">Last Name</label>
-                    <input
-                      type="text"
-                      className="form-control "
-                      placeholder="last name"
-                      defaultValue={lastName}
-                      disabled={disable}
-                      name="last_name"
-                    />
+                  <div className="profile-info-container ">
+                    <strong className="text-black-50">{username}</strong>
                   </div>
+
+                  {disableUpdate ? (
+                    <div className="upload-photo">
+                      <label className="upload">
+                        <input
+                          className="uploaded"
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePhotoChange}
+                          disabled={disableChooseFile}
+                          id="profilePictureInput"
+                          style={{ disable: "hidden" }}
+                          name="photo"
+                        />
+                      </label>
+                    </div>
+                  ) : null}
                 </div>
-                <div className="row mt-3">
-                  <div className="col-md-12">
-                    <label className="labels">Email ID</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="enter email id"
-                      defaultValue={email}
-                      disabled={disable}
-                      name="email"
-                    />
+              </div>
+              <hr className="divider" />
+
+              <div className="col-md-12">
+                <div className="p-3 py-5 bottom-container">
+                  <div className="row mt-2">
+                    <div className="col-md-6">
+                      <label className="labels">First Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="first name"
+                        defaultValue={firstName}
+                        disabled={disable}
+                        name="first_name"
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <label className="labels">Last Name</label>
+                      <input
+                        type="text"
+                        className="form-control "
+                        placeholder="last name"
+                        defaultValue={lastName}
+                        disabled={disable}
+                        name="last_name"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="mt-5 text-center">
-                  <button
-                    className="btn btn-outline-primary profile-button"
-                    type="button"
-                    onClick={handleUpdate}
-                    disabled={disableUpdate}
-                  >
-                    Update Profile
-                  </button>
-                  <button
-                    className="btn btn-outline-primary profile-button"
-                    type="submit"
-                    onClick={handleSave}
-                    disabled={disableSave}
-                  >
-                    Save Profile
-                  </button>
-                  <button
-                    className="btn btn-outline-danger profile-button"
-                    type="button"
-                    onClick={handleDelete}
-                  >
-                    Delete Profile
-                  </button>
+                  <div className="row mt-3">
+                    <div className="col-md-12">
+                      <label className="labels">Email ID</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="enter email id"
+                        defaultValue={email}
+                        disabled={disable}
+                        name="email"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-5 text-center">
+                    <button
+                      className="btn btn-outline-primary profile-button"
+                      type="button"
+                      onClick={handleUpdate}
+                      disabled={disableUpdate}
+                    >
+                      Update Profile
+                    </button>
+                    <button
+                      className="btn btn-outline-primary profile-button"
+                      type="submit"
+                      onClick={handleSave}
+                      disabled={disableSave}
+                    >
+                      Save Profile
+                    </button>
+                    <button
+                      className="btn btn-outline-danger profile-button"
+                      type="button"
+                      onClick={handleDelete}
+                    >
+                      Delete Profile
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

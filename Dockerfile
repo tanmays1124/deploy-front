@@ -11,6 +11,9 @@ RUN npm install
 RUN npm install @mui/material
 RUN npm install react-scripts
 RUN npm install apexcharts && npm install js-cookie
+RUN npm install @fortawesome/react-fontawesome
+RUN npm install @fortawesome/fontawesome-svg-core
+RUN npm install @fortawesome/free-solid-svg-icons
 # Copy the entire application to the working directory
 COPY . .
  

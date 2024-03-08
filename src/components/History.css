@@ -4,6 +4,7 @@
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
   border-radius: 10px;
+  font-family: Arial, Helvetica, sans-serif !important;
 }
  
 .quiz-history {
@@ -114,19 +115,19 @@
   &.easy {
     /* background: linear-gradient(#d6f5d6, #aaffaa);  */
     box-shadow: 1px 2px 8px 0px rgb(95, 235, 95);
-    background-color: rgb(238, 225, 222);
+    /* background-color: rgb(223, 223, 223); */
   }
 
   &.medium {
     /* background: linear-gradient(#fffae5, #ffd700);  */
     box-shadow: 1px 2px 8px 0px rgb(255, 221, 0); /* Lighter yellow shadow */
-    background-color: rgb(238, 225, 222);
+    /* background-color: rgb(238, 225, 222); */
   }
 
   &.difficult {
     /* background: linear-gradient(#ffbdbd, #e74c3c); */
     box-shadow: 1px 2px 8px 0px rgb(251, 44, 7);
-    background-color: rgb(238, 225, 222);
+    /* background-color: rgb(223, 223, 223); */
   }
 }
 

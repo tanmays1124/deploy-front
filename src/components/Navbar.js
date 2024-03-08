@@ -21,10 +21,19 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import ip from "../ipaddr.js";
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
+<<<<<<< HEAD
+=======
+import { useState } from "react";
+import "./Navbar.css";
+>>>>>>> 75c5bd607c0d183ab95b0d1a5f7b6f83b4dae6bf
 
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 75c5bd607c0d183ab95b0d1a5f7b6f83b4dae6bf
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({

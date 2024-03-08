@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
-import History from "./components/History (1)";
+import History from "./components/History";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import Landing from "./components/Landing";
@@ -36,6 +36,7 @@ const App = () => {
   const [number, setNumber] = useState("");
   const [category, setCategory] = useState("");
   const [score, setScore] = useState(0);
+
 
   return (
     <Router>

@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import Cookie from 'js-cookie' 
 
 
+const jwt = sessionStorage.getItem('jwt')
+
 const Quizend = (props) => {
     const navigate = useNavigate()
 

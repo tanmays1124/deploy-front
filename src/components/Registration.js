@@ -312,7 +312,11 @@ function Register() {
   const [mssg, setMssg] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordd, setShowPasswordd] = useState(false);
+
+  
   const [show, setShow] = useState('fade')
+
 
   const handleInputChange = (event) => {
     setFormData({
@@ -323,9 +327,14 @@ function Register() {
   var shakeMe = document.getElementById('alert1')
 
 
-  // const handleTogglePassword = () => {
-  //   setShowPassword(!showPassword);
-  // };
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleToggleConfirmPassword = () => {
+    setShowPasswordd(!showPasswordd);
+  };
+  
 
   const validatePassword = (str) => {
     const uppercaseRegex = /[A-Z]/;
@@ -361,7 +370,7 @@ function Register() {
 
     }
 
-    if (!validatePassword(psswd.value)) {
+    else if (!validatePassword(psswd.value)) {
       setMssg("Password must contain Uppercase, LowerCase and at least 8 characters long");
       psswd.style.border = "2px solid red";
       setShow('show')
@@ -408,63 +417,6 @@ function Register() {
     }, 500);
   }
   return (
-    // <center>
-    //   <div className="partition">
-    //     {/* <div className="partition-image" style={{ backgroundImage: `url(${log})` }} ></div>  */}
-    //     <div className="login-container">
-    //       <div className="title">Registration</div>
-    //       <div className="content">
-    //         <form action="#" onSubmit={handleSubmit}>
-    //           <div className="user-details">
-    //             <div className="input-box">
-    //               {/* <span className="details">First Name</span> */}
-    //               <input name="first_name" type="text" placeholder="First Name" id="first_name" value={formData.first_name} onChange={handleInputChange} required/>
-    //             </div>
-    //             <div className="input-box">
-    //               {/* <span className="details">Last Name</span> */}
-    //               <input name="last_name" type="text" placeholder="Last Name" id="last_name" value={formData.last_Name} onChange={handleInputChange} required/>
-    //             </div>
-
-    //             <div className="inputbox">
-    //               {/* <span className="details">Email</span> */}
-    //               <input name="email" type="email" placeholder="Email" id="email" value={formData.email} onChange={handleInputChange} required/>
-    //             </div>
-    //             <div className="inputbox">
-    //               {/* <span className="details">Username</span> */}
-    //               <input name="username" type="text" placeholder="Username" id="username" value={formData.username} onChange={handleInputChange} required/>
-    //             </div>
-    //             <div className="inputbox">
-    //               {/* <span className="details">Password</span> */}
-    //               <div className="password-input-container">
-    //                 <input
-    //                   name="password"
-    //                   type={showPassword ? "text" : "password"}
-    //                   placeholder="Password"
-    //                   id="password"
-    //                   value={formData.password}
-    //                   onChange={handleInputChange}
-    //                   required
-    //                 />
-    //                 {/* <span className="toggle-password" onClick={handleTogglePassword}>
-    //                   {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
-    //                 </span> */}
-    //               </div>
-    //             </div>
-
-    //           </div>
-    //           <div className="button">
-    //             <input type="submit" value="Register"/>
-    //           </div>
-    //           <Link to="/login" className='login-link'>Login?</Link>
-    //           {/* Add the alert div */}
-    //           <div id="alert" className="error-message">
-    //             {mssg}
-    //           </div>
-    //         </form>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </center>
     <>
    
 
@@ -525,7 +477,7 @@ function Register() {
 
           <input
             className="signup-input"
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             id="password"
             value={formData.password}

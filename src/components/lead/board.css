@@ -20,8 +20,8 @@
   flex-direction: column;
   align-items: center; /* Center horizontally */
   justify-content: center; /* Center vertically */
-
-  background:#e0dddd;
+  margin-top: 10%;
+  background:none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   margin-bottom: 20px;
@@ -78,10 +78,10 @@
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
-  background: linear-gradient(to right, #c1c5c7, #d2d8d8);
-
+  background: none;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* border: 1px solid black; */
+  box-shadow: 1px 1px 9px rgb(0 0 0 / 78%) !important;
 }
 
 .user-profile {

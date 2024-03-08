@@ -6,8 +6,10 @@ import login from "../images/login.jpg";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "./Login.css";
 import ip from "../ipaddr.js";
-import Cookies from 'js-cookie';
-import Loading from './Loading'
+import Cookies from "js-cookie";
+import Loading from "./Loading";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [formData, setFormData] = useState({
@@ -23,6 +25,12 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   const [isSuperUser, setIsSuperUser] = useState(false)
   const navigate = useNavigate();
 
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+  
+
   const handleInputChange = (event) => {
     setFormData({
       ...formData,
@@ -36,7 +44,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
   // };
 
   const handleSubmit = async (event) => {
-    setLoading(true)
+    setLoading(true);
     event.preventDefault();
     try {
       const response = await axios.post(
@@ -47,7 +55,10 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
       setToken(response.data.jwt);
       setIsSuperUser(response.data.is_superuser)
       localStorage.setItem("token", response.data.jwt);
-      Cookies.set('jwt', response.data.jwt, { expires: 7, secure: false });
+      Cookies.set("jwt", response.data.jwt, { expires: 7, secure: false });
+      sessionStorage.setItem('jwt', response.data.jwt)
+      console.log("Session Storage",sessionStorage.getItem('jwt'))
+      
 
       localStorage.setItem("userId", response.data.id);
       // localStorage.setItem("username", response.data.username);
@@ -55,7 +66,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
       // setLogged(true);
       // setUserId(response.data.id);
     } catch (err) {
-      setLoading(false)
+      setLoading(false);
       setErrorMessage("Invalid credentials!");
       setShow("show");
       // handleShake();
@@ -63,14 +74,12 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
     }
   };
 
-
   useEffect(() => {
     // setLoading(true)
-    if (token.length>0) {
+    if (token.length > 0) {
       setTokenUpdated(true);
     }
   }, [token,isSuperUser]);
-
 
   useEffect(() => {
     setLoading(false)
@@ -86,15 +95,14 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
     }
   }, [tokenUpdated]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     setToken("");
-  },[])
+  }, []);
 
-  return (
-    
-     loading ? <Loading/>:(
-     <>
+  return loading ? (
+    <Loading />
+  ) : (
+    <>
       <div
         className={`alert alert-danger d-flex align-items-center ${show}`}
         id="alert1"
@@ -107,7 +115,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
 </div>
       <div className="login">
         <h1>Login</h1>
-        
+
         <form className="login-form" action="#" onSubmit={handleSubmit}>
           <input
             className="login-input"
@@ -118,15 +126,26 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
             placeholder="Username or Email"
             required="required"
           />
-          <input
+        <input
             className="login-input"
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
+            id="password"
             value={formData.password}
             onChange={handleInputChange}
             placeholder="Password"
             required="required"
           />
+          <span
+            className="toggle-password"
+            onClick={handleTogglePassword}
+          >
+            {showPassword ? (
+              <FontAwesomeIcon icon={faEyeSlash} />
+            ) : (
+              <FontAwesomeIcon icon={faEye} />
+            )}
+          </span>
           <button type="submit" className="login-btn">
             Login
           </button>
@@ -143,11 +162,7 @@ const Login = ({ token, setToken, setUser, setLogged, setUserId }) => {
           </Link>
         </div>
       </div>
-      </>
-      
-      )
-    
-    
+    </>
   );
 };
 

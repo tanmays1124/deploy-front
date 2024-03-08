@@ -5,6 +5,9 @@ import "./BarGraph.css";
 import ip from '../../ipaddr.js'
 import Loading from '../Loading'
 
+
+const jwt = sessionStorage.getItem('jwt')
+
 function BarGraph({token}) {
   const [data, setDatabaseData] = useState([]);
   const [selectedDomain, setSelectedDomain] = useState('Linux');
@@ -34,7 +37,7 @@ function BarGraph({token}) {
           {
             method: 'GET',
             headers: {
-              'Authorization': `Bearer ${token}`,
+              'Authorization': `Bearer ${jwt}`,
               'Content-Type': 'application/json'
             }
           }
@@ -170,10 +173,10 @@ function BarGraph({token}) {
        <Box sx={{ display: 'flex' }}>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <div className="App">
-            <h1 style={{ color: '#1565C0' }}>
+            <h1 style={{ color: '#000' }}>
               Bar Chart <i className="fas fa-chart-bar"></i>
             </h1>
-            <div className="divider" style={{ borderBottom: '2px solid #1565C0', fontWeight: 'bold', marginBottom: '10px' }}></div>
+            <div className="divider" style={{ borderBottom: '2px solid #000', fontWeight: 'bold', marginBottom: '10px' }}></div>
             <div className="dropdown-container">
               <label htmlFor="domainDropdown">Select Domain:</label>
               <select id="domainDropdown" onChange={handleDomainChange} value={selectedDomain}>
